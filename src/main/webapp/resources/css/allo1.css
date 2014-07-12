@@ -1,0 +1,110 @@
+
+.header .search-table { width: 100%; }
+.header .search-table td { /*padding-top: 36px;*/ }
+.header .decor-left { /*background: transparent url('http://i.allo.ua/skin/frontend/enterprise/allo/images/sprite.png') no-repeat -14px 0; width: 52px;*/ }
+.header .decor-right { /*background: transparent url('http://i.allo.ua/skin/frontend/enterprise/allo/images/sprite.png') no-repeat -67px 0; width: 57px;*/ }
+.header .input-container-search,
+.header .button-container {/*background: transparent url('http://i.allo.ua/skin/frontend/enterprise/allo/images/vertical_gradient.png') repeat-x 0 0;*/ }
+.header .button-container { width: 70px; }
+.header .button-container .button {
+    position: absolute;
+    right: 36px;
+    z-index: 10;
+
+}
+.header .button-container .button span {
+    background: transparent url('http://i.allo.ua/skin/frontend/enterprise/allo/images/sprite.png') no-repeat -125px 0;
+    width: 101px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0;
+    vertical-align: top;
+    font-size: 16px;
+    font-weight: 400;
+    color: #e00005;
+}
+.header .button-container .button:hover span { background-position: -588px -158px; }
+.header .input-container-search input {
+    width: 80%;
+    height: 28px;
+    border: none;
+    vertical-align: middle;
+    color: #515151;
+    font-size: 14px;
+    margin-left: 6px;
+    padding:0;
+}
+.header .input-decor {
+    background: transparent url('http://i.allo.ua/skin/frontend/enterprise/allo/images/sprite.png') no-repeat 0 -9px;
+    display: inline-block;
+    width: 1px;
+    height: 30px;
+}
+.header .input-container-search .por { left: -16px; }
+
+.page {
+min-width: 1000px;
+max-width: 1200px;
+margin: 8px auto 0;
+}
+
+user agent stylesheetdiv {
+display: block;
+}
+body {
+background: #fff;
+font: 11px/1.35 Arial, Helvetica, sans-serif;
+color: #444;
+min-width: 1200px;
+}
+.cms-index-index .header-container {
+margin-bottom: 23px;
+}
+.header-container {
+color: #fff;
+/* background: #e00905 url('http://i.allo.ua/skin/frontend/enterprise/allo/images/vertical_gradient.png') repeat-x 0 -382px; */
+}
+* {
+margin: 0;
+padding: 0;
+}
+user agent stylesheetdiv {
+display: block;
+}
+Pseudo ::after element
+.product-options dt:after, #bundleProduct:after, .events-slider:after, .product-image-popup .nav:after, .gift-item:after, .block-content:after, .block-list li.item:after, .block-poll li:after, .currently li:after, .order-info:after, .top-cart .actions:after, .header .quick-access:after, .product-view .box-related li.item:after, .bundle-summary .product:after, .collateral-tabs:after, .block-cart .block-content .item:after, .clearer:after, .header-container:after, .header-container .top-container:after, .header:after, .header-panel:after, #nav:after, .main:after, .footer-before-container:after, .footer-container:after, .footer:after, .col-main:after, .col2-set:after, .col3-set:after, .col4-set:after, .search-autocomplete li:after, .block li.item:after, .block .actions:after, .mini-products-list li:after, .cms-index-index .block-featured li.item:after, .title-buttons:after, .pager:after, .sorter:after, .ratings:after, .add-to-box:after, .add-to-cart:after, .products-grid:after, .products-list li.item:after, .product-view:after, .product-view .product-img-box .more-views ul:after, .product-view .box-tags .form-add-tags:after, .product-options .options-list li:after, .options-container-small .product-options:after, .product-options-bottom:after, .product-review:after, .box-collateral:after, .box-collateral .box-content:after, .collateral-tabs .tab-content:after, .account-login:after, .cart .cart-collaterals:after, .cart:after, .opc .step-title:after, .checkout-progress:after, .form-list li:after, .form-list li.fields .field:after, .clearfix:after, .buttons-set:after, .buttons-set2:after, .page-print .print-head:after, .new-product-spotlight .more-new .item:after, .addresses-list .col-2 li:after, .product-view .product-shop:after {
+display: block;
+content: ".";
+clear: both;
+font-size: 0;
+line-height: 0;
+height: 0;
+overflow: hidden;
+}
+body {
+background: #fff;
+font: 11px/1.35 Arial, Helvetica, sans-serif;
+color: #444;
+min-width: 1200px;
+}
+
+element.style {
+display: none;
+}
+* {
+margin: 0;
+padding: 0;
+}
+user agent stylesheetdiv {
+display: block;
+}
+.header-container {
+color: #fff;
+/* background: #e00905 url('http://i.allo.ua/skin/frontend/enterprise/allo/images/vertical_gradient.png') repeat-x 0 -382px; */
+}
+body {
+background: #fff;
+font: 11px/1.35 Arial, Helvetica, sans-serif;
+color: #444;
+min-width: 1200px;
+}

@@ -1,0 +1,762 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width; UTF-8; "/>
+        <h:outputStylesheet library="css" name="bootstrap.css"/>
+
+        <link rel="stylesheet" type="text/css" href="http://gigabyteshop.hol.es/allo_css1.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="http://gigabyteshop.hol.es/allo_css2.css" media="print" />
+        <h:outputStylesheet library="css" name="style.css"/>
+
+        <script src="http://yandex.st/jquery/1.7.2/jquery.min.js"></script>
+
+        <h:outputScript library="arcticModal" name="jquery.arcticmodal-0.3.min.js"/>
+        <h:outputScript library="javascript" name="script.js"/>
+        <h:outputStylesheet library="arcticModal" name="jquery.arcticmodal-0.3.css"/>
+        <h:outputStylesheet library="arcticModal" name="simple.css"/>
+
+
+        <script>
+
+
+            /*function getXmlHttp() {
+             var xmlhttp;
+             try {
+             xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+             } catch (e) {
+             try {
+             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+             } catch (E) {
+             xmlhttp = false;
+             }
+             }
+             if (!xmlhttp &amp;&amp; typeof XMLHttpRequest !== 'undefined') {
+             xmlhttp = new XMLHttpRequest();
+             }
+             return xmlhttp;
+             }
+             function vote() {
+             var req = getXmlHttp()
+             
+             
+             var statusElem = document.getElementById('awd');
+             req.onreadystatechange = function() {
+             if (req.readyState === 4) {
+             statusElem.innerHTML = req.statusText 
+             if (req.status === 200) {
+             var arr = req.responseText.split(" ");
+             alert(arr);
+             }
+             }
+             
+             }
+             req.open('GET', 'category', true);
+             req.send(null); 
+             
+             statusElem.innerHTML = 'awdawd';
+             }
+             
+             function restore() {
+             
+             var myselect = document.getElementsByClassName('selectOneMenu');
+             var value = myselect[0].value;
+             var req = getXmlHttp()
+             
+             var statusElem = document.getElementById('awd');
+             req.onreadystatechange = function() {
+             if (req.readyState === 4) {
+             
+             if (req.status === 200) {
+             var arr = req.responseText.split(",");
+             var newCombo = document.getElementsByClassName("selectOneMenuSubCategories")[0];
+             //newCombo.innerHTML = "";
+             
+             
+             
+             for (var i = 0; i &lt; arr.length; i++) {
+             var op = document.createElement('option');
+             op.setAttribute('value', arr[i]);
+             op.innerHTML = arr[i];
+             newCombo.appendChild(op)
+             }
+             
+             
+             }
+             }
+             
+             }
+             req.open('GET', 'category?item=' + value, true);
+             req.send(null);
+             }
+             */
+            function checkRegisterForm(form) {
+
+                var password = form[form.id + ":password"].value;
+                var passwordConfirm = form[form.id + ":conffirmPassword"].value;
+
+                if (password === passwordConfirm) {
+
+                    form.submit();
+                } else {
+                    alert('NE OK');
+                }
+            }
+            function checkOrder(arg) {
+                if (arg) {
+                } else {
+                    document.location.href = '#register-window';
+                }
+            }
+
+
+            function func(number) {
+                if (number === 1) {
+                    $('#mainTab_content').css("display", "block");
+                    $('#specsTab_content').css("display", "none");
+                    $('#reviewsTab_content').css("display", "none");
+
+                    $('#mainTabDiv').addClass('active');
+                    $('#specsTabDiv').removeClass('active');
+                    $('#feedbacksTabDiv').removeClass('active');
+                } else if (number === 2) {
+                    $('#mainTab_content').css("display", "none");
+                    $('#specsTab_content').css("display", "block");
+                    $('#reviewsTab_content').css("display", "none");
+
+                    $('#mainTabDiv').removeClass('active');
+                    $('#specsTabDiv').addClass('active');
+                    $('#feedbacksTabDiv').removeClass('active');
+
+                } else {
+                    $('#mainTab_content').css("display", "none");
+                    $('#specsTab_content').css("display", "none");
+                    $('#reviewsTab_content').css("display", "block");
+
+                    $('#mainTabDiv').removeClass('active');
+                    $('#specsTabDiv').removeClass('active');
+                    $('#feedbacksTabDiv').addClass('active');
+                }
+
+            }
+
+            func(1);
+
+
+
+            function getHeight(height, width) {
+                var widsotku = 0;
+                var new_height = 0;
+                var new_width = 0;
+                widsotku = (MAX_WIDTH_IMAGE * 100 / width);
+                new_width = MAX_WIDTH_IMAGE;
+                new_height = (height * widsotku) / 100;
+                return new_height;
+            }
+
+            function getWidth(height, width) {
+                var widsotku = 0;
+                var new_height = 0;
+                var new_width = 0;
+                widsotku = (MAX_HEIGHT_IMAGE * 100 / height);
+                new_height = MAX_HEIGHT_IMAGE;
+                new_width = (width * widsotku) / 100;
+                return new_width;
+            }
+
+
+        </script>
+
+    </h:head>
+    <h:body >
+        <c:if test="#{user.showAdminPanel}">
+            <ui:insert name="admin-bar">
+
+                <div id="panel">
+                    <div id="panel-content">
+                        <!--PRODUCT CONTROL BAR-->
+                        <div class="admin-menu"><span  class="admin-bar-text" id="product-control">Керування товарами</span></div>
+
+                        <div id="product-control-bar" style="margin-left: 10px;">
+                            <div class="admin-menu"><span  id="add-product"  class="admin-bar-text basic">Додати товар</span></div>
+                        </div>
+
+                        <!--/PRODUCT CONTROL BAR-->
+
+                        <!--USER CONTROL BAR-->
+                        <div class="admin-menu"><span  class="admin-bar-text" id="user-control">Керування користувачами</span></div>
+                        <div id="user-control-bar" style="margin-left: 10px;">
+                            <div class="admin-menu" id="show-list-user"><span class="admin-bar-text">Список користувачів</span></div>
+                            <div class="admin-menu" id="drop-user"><span class="admin-bar-text">Видалити користувача</span></div>
+                            <div class="admin-menu" id="update-role"><span class="admin-bar-text">Змінити правa користувача</span></div>
+                        </div>
+                        <!--/USER CONTROL BAR-->
+                        <div class="admin-menu"><span  class="admin-bar-text" id="order-control">Керування замовленнями</span></div>
+                        <div id="order-control-bar" style="margin-left: 10px; display: none;">
+                            <div class="admin-menu" id="show-orders"><span class="admin-bar-text">Список замовлень</span></div>
+                            <div class="admin-menu" id="drop-order"><span class="admin-bar-text">Видалити замовлення</span></div>
+                            <div class="admin-menu" id="update-order"><span class="admin-bar-text">Змінити статус замовлення</span></div>
+                        </div>
+                    </div>
+                    <div id="panel-sticker">
+                        <div class="close">×</div>    
+                    </div>
+                </div>
+                <div id="update-product-panel">
+                    <div class="panel-sticker-update-product updateClicker">
+                        <div class="close">×</div>    
+                    </div>
+                    <div id="panel-content-update-product" style="overflow: scroll;">
+                        <h:form enctype="multipart/form-data" id="formUpdateProduct">
+                        <table style="margin-left: 15px; margin-top: 10px;" id="tableUpdateProduct">
+                            <tr>
+                                <td>
+
+                                    <table style="float: left;">
+                                        <tr>
+                                            <td>
+                                                <h:inputText value="#{updateProductBean.product.name}"  class="form-control"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:inputText value="#{updateProductBean.product.count}" class="form-control"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:inputText value="#{updateProductBean.product.price}" class="form-control" />
+                                            </td>
+                                        </tr>
+                                        <script>
+                                            function renderSelectOneMenuItemUpdateProduct(newCombo) {
+                                                if (newCombo === '1up') {
+                                                    $('.selectSubcategoryUpdateProduct').css('display', 'none');
+                                                    $('.' + 1 + 'up').css('display', 'block');
+                                                } else {
+                                                    $('.selectSubcategoryUpdateProduct').css('display', 'none');
+                                                    $('.' + newCombo.value + 'up').css('display', 'block');
+                                                }
+                                            }
+                                        </script>
+                                        <tr>
+                                            <td>
+                                                <h:selectOneMenu value="#{updateProductBean.mainCategoryId}" 
+                                                                 class="form-control" 
+                                                                 style="height: 40px; width: 361px;" 
+                                                                 onchange="renderSelectOneMenuItemUpdateProduct(this)">
+                                                    <!--<f:selectItem itemLabel="{updateProductBean.product.category.parentCategory.category_id}"--> 
+                                                                  <!--itemValue="{updateProductBean.product.category.name}" />-->
+                                                    <f:selectItems value="#{updateProductBean.getSelectedItemMainCategory()}"></f:selectItems>
+                                                    <!--<f:ajax  render="result" />-->
+                                                </h:selectOneMenu>
+                                            </td>
+                                        </tr>
+                                        
+                                        <c:forEach var="item" items="#{user.categories}">
+                                            <tr>
+                                                <td>
+                                                    <h:selectOneMenu value="#{updateProductBean.categoryID}" 
+                                                                     class="form-control #{item.category_id}up selectSubcategoryUpdateProduct" 
+                                                                     style="height: 40px; width: 361px;" 
+                                                                     > 
+                                                        <f:selectItems value="#{addProductBean.getSelectedItemSubcategories(item)}" />
+                                                        
+                                                    </h:selectOneMenu>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        <script>
+//                                            renderSelectOneMenuItemUpdateProduct(1);
+                                            $('.selectSubcategoryUpdateProduct').css('display', 'none');
+                                                    $('.' + #{updateProductBean.product.category.parentCategory.category_id} + 'up').css('display', 'block');
+                                        </script>
+                                        <tr>
+                                            <td>
+                                                <h:inputTextarea value="#{updateProductBean.product.description}" rows="5" cols="40" class="form-control" style="height: 150px;"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:inputTextarea value="#{updateProductBean.features}" rows="5" cols="40" class="form-control" style="height: 150px;"/>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+
+                            </tr>
+                        </table>
+                        <br/>
+                        <table  style=" margin-left: 10px;">
+                            <c:forEach items="#{updateProductBean.files}" var="file">
+                                <tr><td><h:inputFile value="#{file}" class="text-file"/></td></tr>
+                            </c:forEach>
+
+                        </table>
+                        <h:commandButton action="#{updateProductBean.updateProduct()}" 
+                                         value="update product" 
+                                         class="btn-default btn-lg btn-block " 
+                                         style="width: 360px; margin: 0 auto;"
+                                         >
+                        </h:commandButton>
+                    </h:form>
+
+                    </div>
+                    
+                </div>
+
+                <div class="panelNext" id="show-orders-div" style="overflow: scroll;">
+                    <h:form id="listOrdersForm">
+                        <h:dataTable value="#{user.allOrders}" var="item">
+                            <h:column>
+                                <f:facet name="header">
+                                    Номер замовлення
+                                </f:facet>
+                                #{item.orderId}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Користувач
+                                </f:facet>
+                                #{item.account.login}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Статус
+                                </f:facet>
+                                #{item.status}
+                            </h:column>
+
+                        </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="panelNext" id="drop-order-div" style="overflow: scroll;">
+                    <h:form>
+                        <h:dataTable value="#{user.allOrders}" var="item">
+                            <h:column>
+                                <f:facet name="header">
+                                    Номер замовлення
+                                </f:facet>
+                                #{item.orderId}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Користувач
+                                </f:facet>
+                                #{item.account.login}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Статус
+                                </f:facet>
+                                #{item.status}
+                            </h:column>
+                            <h:column>
+                                <h:commandLink value="drop" action="#{user.deleteOrder(item)}">
+                                    <f:ajax render="@form :listOrdersForm :updateOrderForm"/>
+                                </h:commandLink>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </div>
+                <div class="panelNext" id="update-order-div" style="overflow: scroll;">
+                    <h:form id="updateOrderForm">
+                        <h:dataTable value="#{updateOrderStatusBean.orders}" var="item">
+                            <h:column>
+                                <f:facet name="header">
+                                    Номер замовлення
+                                </f:facet>
+                                #{item.orderId}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Користувач
+                                </f:facet>
+                                #{item.account.login}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Статус
+                                </f:facet>
+                                #{item.status}
+                            </h:column>
+                            <h:column>
+                                <h:column >
+                                    <h:selectOneMenu value="#{item.status}">
+                                        <f:selectItems value="#{updateOrderStatusBean.getAllStatuses()}"/>
+                                        <f:ajax listener="#{updateOrderStatusBean.changeListener(item)}" />
+                                    </h:selectOneMenu>
+                                </h:column>
+                            </h:column>
+                        </h:dataTable>
+                        <h:commandButton action="#{updateOrderStatusBean.updateOrders()}" value="update">
+                            <f:ajax render="@form" />
+                        </h:commandButton>
+                    </h:form>
+                </div>
+
+                <div class="panelNext" id="add-produc-div" style="overflow: scroll;">
+                    <h:form enctype="multipart/form-data">
+                        <table style="margin-left: 15px; margin-top: 10px;" id="formAddProduct">
+                            <tr>
+                                <td>
+
+                                    <table style="float: left;">
+                                        <tr>
+                                            <td>
+                                                <h:inputText value="#{addProductBean.product.name}"  class="form-control"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:inputText value="#{addProductBean.product.count}" class="form-control"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:inputText value="#{addProductBean.product.price}" class="form-control" />
+                                            </td>
+                                        </tr>
+                                        <script>
+                                            function renderSelectOneMenuItem(newCombo) {
+//                                                alert(newCombo.value);
+                                                if (newCombo === 1) {
+                                                    $('.selectSubcategory').css('display', 'none');
+                                                    $('.' + 1).css('display', 'block');
+                                                } else {
+                                                    $('.selectSubcategory').css('display', 'none');
+                                                    $('.' + newCombo.value).css('display', 'block');
+                                                }
+                                            }
+                                        </script>
+                                        <tr>
+                                            <td>
+                                                <h:selectOneMenu value="#{addProductBean.mainCategoryId}" 
+                                                                 class="form-control" 
+                                                                 style="height: 40px; width: 361px;" 
+                                                                 id="awd" 
+                                                                 onchange="renderSelectOneMenuItem(this)">
+                                                    <f:selectItems value="#{addProductBean.getSelectedItemMainCategory()}"></f:selectItems>
+                                                    <!--<f:ajax  render="result" />-->
+                                                </h:selectOneMenu>
+                                            </td>
+                                        </tr>
+                                        <!--                                        <tr>
+                                                                                    <td>
+                                                                                        <h:selectOneMenu value="{addProductBean.categoryId}" 
+                                                                                                         id="result" 
+                                                                                                         class="form-control" style="height: 40px; width: 361px;"> 
+                                                                                            <f:selectItems value="{addProductBean.getSelectedItemSubcategories()}" ></f:selectItems>
+                                                                                        </h:selectOneMenu>
+                                                                                    </td>
+                                                                                </tr>-->
+
+                                        <c:forEach var="item" items="#{user.categories}">
+                                            <tr>
+                                                <td>
+                                                    <h:selectOneMenu value="#{addProductBean.categoryID}" 
+                                                                     class="form-control #{item.category_id} selectSubcategory" 
+                                                                     style="height: 40px; width: 361px;" 
+                                                                     > 
+                                                        <f:selectItems value="#{addProductBean.getSelectedItemSubcategories(item)}" />
+                                                        
+                                                    </h:selectOneMenu>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        <script>
+                                            renderSelectOneMenuItem(1);
+                                        </script>
+                                        <tr>
+                                            <td>
+                                                <h:inputTextarea value="#{addProductBean.product.description}" rows="5" cols="40" class="form-control" style="height: 150px;"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h:inputTextarea value="#{addProductBean.features}" rows="5" cols="40" class="form-control" style="height: 150px;"/>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+
+                            </tr>
+                        </table>
+                        <br/>
+                        <table  style=" margin-left: 10px;">
+                            <c:forEach items="#{addProductBean.files}" var="file">
+                                <tr><td><h:inputFile value="#{file}" class="text-file"/></td></tr>
+                            </c:forEach>
+
+                        </table>
+                        <h:commandButton action="#{addProductBean.addProduct()}" 
+                                         value="add product" 
+                                         class="btn-default btn-lg btn-block " 
+                                         style="width: 360px; margin: 0 auto;"
+                                         >
+                            <!--<f:setPropertyActionListener target="{user.action}" value="delete" />-->
+                        </h:commandButton>
+                    </h:form>
+
+                </div>
+
+
+
+                <!--                <div id="admin-bar" class="{user.classForAdminPanel}" style="margin-top: 100px;">
+                                    <div class="admin-menu"><span  class="admin-bar-text" id="product-control">Керування товарами</span></div>
+                                    <div class="admin-menu"><span  class="admin-bar-text" id="user-control">Керування користувачами</span></div>
+                                </div>-->
+
+                <!--                <div id="user-control-bar" >
+                                    <div class="admin-menu" id="show-list-user"><span class="admin-bar-text">Список користувачів</span></div>
+                                    <div class="admin-menu" id="drop-user"><span class="admin-bar-text">Видалити користувача</span></div>
+                                    <div class="admin-menu" id="update-role"><span class="admin-bar-text">Змінити правa користувача</span></div>
+                                </div>-->
+                <!--                <div id="product-control-bar">
+                                    <div class="admin-menu"><span  id="add-product"><a href="#add-product-window" class="admin-bar-text basic">Додати товар</a></span></div>
+                                </div>-->
+
+                <!--
+                                <div id="add-product-content" class="basic-modal-content" style="display: none;">
+                                    <div class="box-modal" id="add-product-modal">
+                                        <div class="box-modal_close arcticmodal-close">закрыть</div>
+                                        <h:form enctype="multipart/form-data">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                
+                                                        <table style="float: left;">
+                                                            <tr>
+                                                                <td>
+                                                                    <h:inputText value="{addProductBean.product.name}"  class="form-control"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <h:inputText value="{addProductBean.product.count}" class="form-control"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <h:inputText value="{addProductBean.product.price}" class="form-control" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <h:inputTextarea value="{addProductBean.product.description}" rows="5" cols="40" class="form-control" style="height: 150px;"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <h:selectOneMenu value="{addProductBean.mainCategoryId}" class="form-control" style="height: 40px;" >
+                                                                        <f:selectItems value="{addProductBean.getSelectedItemMainCategory()}"></f:selectItems>
+                                                                        <f:ajax  render="result" />
+                                                                    </h:selectOneMenu>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <h:selectOneMenu value="{addProductBean.categoryId}" 
+                                                                                     id="result" 
+                                                                                     class="form-control" style="height: 40px;"> 
+                                                                        <f:selectItems value="{addProductBean.getSelectedItemSubcategories()}" ></f:selectItems>
+                                                                    </h:selectOneMenu>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                
+                                                    </td>
+                                                    <td>
+                                                        <table  style=" margin-left: 40px;">
+                                                            <c:forEach items="{addProductBean.files}" var="file">
+                                                                <tr><td><h:inputFile value="{file}" class="text-file"/></td></tr>
+                                                            </c:forEach>
+                
+                                                        </table>
+                
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <h:commandButton action="{addProductBean.addProduct()}" 
+                                                             value="add product" 
+                                                             class="btn-default btn-lg btn-block " 
+                                                             >
+                                                <f:setPropertyActionListener target="{user.action}" value="delete" />
+                                            </h:commandButton>
+                                        </h:form>
+                
+                
+                                    </div>
+                                </div>-->
+
+                <!--<h:form id="update-role-form">-->
+                <div  class="panelNext" id="update-user-role-div">
+
+                    <div  id="update-users-role-content" class="basic-modal-content1">
+                        <div >
+                            <div style="overflow: auto; width: 100%; height: 300px;">
+                                <h:form>
+                                    <h:dataTable value="#{updateUsersRoleBean.accounts}" var="item" id="updateUserRoleTable">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Login
+                                            </f:facet>
+                                            #{item.login}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                First name
+                                            </f:facet>
+                                            #{item.fname}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Last name
+                                            </f:facet>
+                                            #{item.lname}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                email
+                                            </f:facet>
+                                            #{item.email}
+                                        </h:column>
+                                        <h:column id="column">
+                                            <h:selectOneMenu value="#{item.role}">
+                                                <f:selectItem itemLabel="#{item.role}" itemValue="#{item.role}" />
+                                                <f:selectItem itemLabel="#{user.getLastRole(item.role)}" itemValue="#{user.getLastRole(item.role)}"/>
+                                                <f:ajax listener="#{updateUsersRoleBean.changeListener(item)}"/>
+                                            </h:selectOneMenu>
+                                        </h:column>
+                                    </h:dataTable>
+                                    <h:commandButton value="save" action="#{updateUsersRoleBean.updateAccounts}">
+                                        <f:ajax render="@form" rendered="updateUserRoleTable"/>
+                                    </h:commandButton>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div  class="panelNext" id="drop-user-role-div">
+                    <div id="list-users-drop-content" class="basic-modal-content" >
+                        <div>
+                            <div style="overflow: auto; width: 100%; height: 300px;">
+                                <h:form>
+                                    <h:panelGroup id="dropUserTable">
+                                        <h:dataTable value="#{user.allAccounts}" var="item">
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    Login
+                                                </f:facet>
+                                                #{item.login}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    First name
+                                                </f:facet>
+                                                #{item.fname}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    Last name
+                                                </f:facet>
+                                                #{item.lname}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    email
+                                                </f:facet>
+                                                #{item.email}
+                                            </h:column>
+                                            <h:column>
+                                                <h:commandLink action="#{user.dropUser(item)}" value="drop">
+                                                    <f:ajax render="@form :listForUserForm :listOrdersForm :updateOrderForm"/>
+                                                </h:commandLink>
+                                            </h:column>
+                                        </h:dataTable>
+                                    </h:panelGroup>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div  class="panelNext" id="list-user-role-div">
+                    <div id="list-users-content" class="basic-modal-content1">
+                        <div >
+                            <div style="overflow: auto; width: 100%; height: 300px;">
+                                <h:form id="listForUserForm">
+                                    <h:dataTable value="#{user.allAccounts}" var="item" columnClasses="col,col,col,col">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Login
+                                            </f:facet>
+                                            #{item.login}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                First name
+                                            </f:facet>
+                                            #{item.fname}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Last name
+                                            </f:facet>
+                                            #{item.lname}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                email
+                                            </f:facet>
+                                            #{item.email}
+                                        </h:column>
+                                    </h:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--</h:form>-->
+            </ui:insert>
+        </c:if>
+        <div id="headerMainLAyout">
+            <ui:insert name="header">
+                <ui:include src="/templates/common/header.xhtml" />
+            </ui:insert>
+        </div>
+        <div id="login">
+            <ui:insert name="login">
+                <ui:include src="/templates/common/login.xhtml"/>
+            </ui:insert>
+        </div>
+
+        <div id="center">
+            <div id="left-panel">
+                <ui:insert name="left-panel">
+                    <ui:include src="/templates/common/left-sidebar.xhtml"/>
+                </ui:insert>
+            </div>
+
+            <div id="content">
+                <ui:insert name="content">
+                    Default content..
+                </ui:insert>
+            </div>
+
+
+        </div>
+
+
+    </h:body>
+</html>

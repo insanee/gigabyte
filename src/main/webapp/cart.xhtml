@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <head>
+        <title>Facelet Title</title>
+    </head>
+    <body>
+        <ui:composition template="/templates/main-layout.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <div class="my-account" style="#{(user.getCart().itemCart.size() == 0) ? 'display: block;' : 'display: none;'}">
+                        <div class="page-title">
+                            <h1>Корзина пуста</h1>
+                        </div>
+                        <div class="">
+                            <p>Ваша корзина поки пуста.</p>
+                            <p>Натисніть <h:commandLink value="сюди" action="/index?faces-redirect=true"/>, щоб повернутися до покупків.</p>
+                        </div>
+                    </div>
+                </h:form>
+                <h:form id="cart-form" style="#{(not (user.getCart().itemCart.size() == 0)) ? 'display: block;' : 'display: none;'}" >
+                    <h:dataTable value="#{user.getCart().itemCart}" var="i" 
+                                 columnClasses="cart-table-row,cart-table-row,cart-table-row,cart-table-row">
+                        <h:column>
+                            <f:facet name="header">
+                                Name
+                            </f:facet> 
+                            #{i.product.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Price
+                            </f:facet> 
+                            #{i.product.price}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                Count
+                            </f:facet> 
+                            <c:set var="name" value="#{i.product.name}"/>
+                            <h:inputText value="#{i.count}" >
+                                <f:ajax event="change"  render="@form"/>
+                            </h:inputText>
+
+                        </h:column>
+                        <h:column>
+                            <h:commandLink action="#{user.deleteRowFromCart(i)}" value="drop">
+                                <f:ajax render="@form :cartGroup"/>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+
+                    <h:commandButton value="Оформити замовлення" action="#{user.order()}" class="btn btn-warning">
+                        <f:ajax/>
+                    </h:commandButton>
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+

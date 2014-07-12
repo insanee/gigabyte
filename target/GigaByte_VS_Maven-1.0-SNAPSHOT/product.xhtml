@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html >
+    <head>
+        <title>Facelet Title</title>
+    </head>
+    <body>
+        <ui:composition template="/templates/main-layout.xhtml"
+                        xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:h="http://xmlns.jcp.org/jsf/html"
+                        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                        xmlns:c="http://java.sun.com/jsp/jstl/core"
+                        xmlns:f="http://xmlns.jcp.org/jsf/core"
+                        xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+            <ui:define name="content">
+                <c:set var="product"  value="#{user.getProductById(request.getParameter('productId'))}" />
+                <c:set var="productId" value="#{product.product_id}" />
+                #{request.setAttribute('productId', product.name)}
+Product #{product}<br/>
+#{updateProductBean.setProduct(product)}
+#{user.setProductId(product.product_id)}
+                <script>
+
+                    function setZoomImage(awd) {
+//                        var MAX_WIDTH_IMAGE = $('#border-image-zoom').width();
+//                        var MAX_HEIGHT_IMAGE = $('#border-image-zoom').height();
+//                        alert($(awd).prop('src'));
+                        $('#image').attr("src", $(awd).prop('src'));
+
+//                            var width = $("#image").width();
+//                            var height = $("#image").height();
+//                            alert(MAX_WIDTH_IMAGE + "    " + MAX_HEIGHT_IMAGE + "\n" + width + "    " + height);
+//                            if (width != null &amp;&amp; (MAX_WIDTH_IMAGE - width) &lt; 0) {
+//                    new_width = MAX_WIDTH_IMAGE;
+//                            $("#image").attr("width", new_width);
+//                            $("#image").removeAttr("height");
+//                            height = $("#image").height();
+//                            if (height != null &amp;&amp; (MAX_HEIGHT_IMAGE - height) &lt; 0){
+//
+//                    $("#image").attr("height", MAX_HEIGHT_IMAGE);
+//                            $("#image").removeAttr("width");
+//                    }
+//                    } else if (height != null &amp;&amp; (MAX_HEIGHT_IMAGE - height) &lt; 0){
+//                    $("#image").attr("height", MAX_HEIGHT_IMAGE);
+//                            $("#image").removeAttr("width");
+//                    }
+//                    }
+                    }
+                </script>
+                <div class="main col1-layout" style="width: 880px; ">
+                    <div class="col-main">
+
+                        <div id="productalert-stock-lightbox" style="display:none;" class="lightbox cart-lightbox forgot-password-lightbox productalert-app">
+
+                            <div class="customer-account-login">
+                                <div class="lb-content">
+                                    <div class="productalert-stock">
+                                        <h4><span>Сообщить</span> о появлении в продаже</h4>
+                                        <h:form  class="form-alert-stock" id="alert-stock-form">
+                                            <div class="fieldset">
+                                                <ul class="form-list">
+                                                    <li>
+                                                        <label for="customer_email" class="required stock-alert"><span>Электронная почта<em>*</em></span></label>
+                                                        <div class="input-box">
+                                                            <button class="button red" type="submit" id="send-friend-email-button" title="Сообщить о наличии">
+                                                                <span>
+                                                                    <span>OK</span>
+                                                                </span>
+                                                            </button>
+                                                            <input type="text" id="customer_email_stock" name="customer_email" title="Электронная почта (email)" class="input-text validate-email required-entry"/>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                        </h:form>
+
+                                    </div>
+                                </div>
+                                <a href="javascript:;" class="lb-close icon"></a>
+                            </div>
+
+                        </div>
+
+                        <div id="productalert-price-lightbox" style="display:none;" class="lightbox cart-lightbox forgot-password-lightbox productalert-app">
+
+                            <div class="customer-account-login">
+                                <div class="lb-content">
+                                    <div class="productalert-stock">
+
+                                    </div>
+                                </div>
+                                <a href="javascript:;" class="lb-close icon"></a>
+                            </div>
+
+                        </div>
+                        <div id="messages_product_view"><!-- MESSAGES_df629adc9dde4adb6e32bc8a038d9bcc --><!-- /MESSAGES_df629adc9dde4adb6e32bc8a038d9bcc --></div>
+
+                        <div class="product-view">
+                            <h:form prependId="false">
+                                <table id="productTabs" class="product-tabs">
+                                    <tbody><tr>
+                                            <td class="tab" onclick="func(1)">
+                                                <div class="relative-wrapper active" id="mainTabDiv" style="cursor: pointer;">
+                                                    <span class="decor l"></span>
+                                                    <a id="mainTab" >
+                                                        <span>Найголовніше</span>
+                                                    </a>
+                                                    <span class="decor r"></span>
+                                                </div>
+                                            </td>
+
+                                            <td class="tab" onclick="func(2)">
+                                                <div class="relative-wrapper" id="specsTabDiv" style="cursor: pointer;">
+                                                    <span class="decor l"></span>
+                                                    <a id="specsTab" href=""  style="width: 115px;">
+                                                        <span>Характеристики</span>
+                                                    </a>
+                                                    <span class="decor r"></span>
+                                                </div>
+                                            </td>
+                                            <td class="tab" onclick="func(3)">
+                                                <div class="relative-wrapper" id="feedbacksTabDiv" style="cursor: pointer;">
+                                                    <span class="decor l"></span>
+                                                    <a id="feedbacksTab" >
+                                                        <span>Відгуки</span>
+                                                    </a>
+                                                    <!-- REVIEW_PRODUCT_READ_434889c4895bdc3b0a312e958a9e5b8f --><span class="items-count">#{product.comments.size()}</span>
+                                                    <!-- /REVIEW_PRODUCT_READ_434889c4895bdc3b0a312e958a9e5b8f -->												<span class="decor r"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                                <div id="mainTab_content" class="product-tab-content">
+                                    
+                                        <div class="no-display">
+                                            <input type="hidden" name="product" value="58753"/>
+                                            <input type="hidden" name="related_product" id="related-products-field" value=""/>
+                                        </div>
+                                        <div class="product-essential">
+                                            <p class="no-display" samsung="" galaxy="" trend="" s7390="" midnight="" black=""></p>
+                                            <div class="product-img-box">
+
+
+                                                <div class="product-image product-image-zoom " style="text-align: center;" id="border-image-zoom">
+                                                    <h:graphicImage value="#{user.getAbsolutePathForImage(product)}" id="image" style="max-width: 440px; max-height: 295px;"/>
+
+                                                </div>
+
+                                                <div class="more-views">
+                                                    <ul class="product-thumbnails">
+
+                                                        <c:forEach  items="#{product.images}" var="image">
+                                                            <li class="thumb-active" >
+                                                                <div style="position: relative;">
+                                                                    <h:graphicImage value="#{image.path.concat(image.name)}" height="50" onclick="setZoomImage(this)">
+
+                                                                    </h:graphicImage>
+                                                                    <!--<h:commandLink class="box-modal_close " value="X" action="{user.dropImage(image)}">-->
+                                                                        <!--<div  >X</div>-->
+                                                                        <!--<f:ajax render="@form" />-->
+                                                                    <!--</h:commandLink>-->
+                                                                    
+                                                                </div>
+                                                            </li>
+                                                        </c:forEach>
+<!--                                                        <h:commandLink class="box-modal_close " value="aawdawdX" action="{user.dropImage(null)}">
+                                                                        <div  >X</div>
+                                                                        <f:ajax render="@form"/>
+                                                                    </h:commandLink>-->
+
+                                                    </ul>
+                                                </div>
+
+                                                <div class="clearer"></div>
+
+
+                                                <div id="zoomWindow" class="lightbox zoom-lightbox" style="display:none"></div>
+
+                                            </div>
+                                            <div class="product-shop">
+                                                <div class="product-main-info">
+
+                                                    <span class="product-price-sign">Ціна: </span> 
+                                                    <div>
+
+
+
+                                                        <div class="price-box" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+                                                            <span class="regular-price" id="product-price-58753">
+                                                                <span class="price"><span class="sum" itemprop="price">#{product.price}</span> <span class="currency">грн.</span></span>                        </span>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="product-actions">
+                                                    <!-- OGG_PRODUCTALERT_1b0499b818293e477e8b4e09a726c1b9 --><!-- /OGG_PRODUCTALERT_1b0499b818293e477e8b4e09a726c1b9 -->                                                            <p class="in-stock"><span class="icon"></span>Товар есть в наличии</p>
+                                                    <!--                                                <div class="delivery-period">
+                                                                                                        Срок доставки 1-2 дня						<div class="delivery-icon">
+                                                                                                            <span class="icon delivery-icon-car" title="Курьерская доставка"></span>
+                                                                                                            <span class="icon delivery-icon-house" id="product-delivery-icon-house" title="Бесплатная доставка в магазины Алло"></span>
+                                                                                                        </div>
+                                                                                                    </div>-->
+                                                    <div class="clearer"></div>
+
+                                                    <div class="add-to-box">
+                                                        <div class="add-to-cart">
+                                                            <div>
+<!--                                                                <button id="buy-button-big-1386611145" type="button" template="buy_card" title="Купить" class="button btn-cart big" name="buy-button_58753" onclick="return 'http://allo.ua/checkout/cart/add/uenc/aHR0cDovL2FsbG8udWEvcnUvcHJvZHVjdHMvbW9iaWxlL3NhbXN1bmctZ2FsYXh5LXRyZW5kLXM3MzkwLW1pZG5pZ2h0LWJsYWNrLmh0bWw,/product/58753/';" onmouseup="_gaq.push(['_trackEvent', 'Card', 'actions', 'add-to-cart-above']);">
+                                                                    <span>
+                                                                        <span>
+                                                                            Купить                    </span>
+                                                                    </span>
+                                                                </button>-->
+                                                                <h:commandLink action="#{user.addToCart}" 
+                                                                               value="Купити" 
+                                                                               class="btn-red button btn-cart red " 
+                                                                               style="color: white; text-align: center;">
+                                                                    <f:param value="#{product.product_id}" name="product_id" />
+                                                                    <f:ajax render=":cartGroup"/>
+                                                                </h:commandLink>
+                                                                <c:if test="#{user.showAdminPanel}"><br/>
+                                                                    <br/>
+                                                                    <h:commandLink action="#{user.dropProduct(updateProductBean.getProduct())}"  
+                                                                                   value="Видалити" 
+                                                                                   class="button btn-cart red btn-red"
+                                                                                   style="color: white; width: 169px;">
+                                                                        
+                                                                    </h:commandLink>
+                                                                    <br/>
+                                                                    <br/>
+
+                                                                    <h:commandLink  value="Редагувати" 
+                                                                                    class="button btn-cart red updateClicker" 
+                                                                                    action="#{updateProductBean.setProduct(user.getProductByIdInRequestParameter())}"
+                                                                                    style="color: white; width: 169px; text-align: center;">
+                                                                        <f:ajax render=":formUpdateProduct" />
+                                                                    </h:commandLink>
+
+
+                                                                </c:if>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="clearer"></div>
+                                                </div>
+                                                <div class="clearer"></div>
+
+                                            </div>
+
+                                            <div class="clearer"></div>
+
+                                        </div>
+
+
+                                    <div class="additional-info">
+
+                                        <div class="additional-info-first-block">
+                                            <div class="description-content-wrap">
+                                                <div class="short-description std additional-block">
+                                                    <h2>Опис #{product.name}</h2>
+                                                    <div id="descriptionContent" itemprop="description">
+                                                        #{product.description}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="description-content-widget">
+                                                <div class="widget-block-wrap">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="additional-second-block">
+                                            <div class="description-content-wrap">
+
+                                                <div class="additional-block">
+                                                    <h2>Характеристики #{product.name}</h2>
+                                                    <h:dataTable value="#{user.getSubFeatures(product)}" var="feature" rowClasses="odd, even" class="decorated-table">
+                                                        <h:column>
+                                                            #{feature.name}
+                                                        </h:column>
+                                                        <h:column>
+                                                            #{feature.value}
+                                                        </h:column>
+                                                    </h:dataTable>
+                                                    <div class="clearer"></div>
+                                                    <a href="#" onclick="func(2)" class="see-all"><span>Показати усі характеристики</span></a>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="widget-block-wrap">
+                                            </div>
+
+                                        </div>
+                                        <div class="c-right">
+                                        </div>
+                                        <div class="clearer"></div>
+
+                                        <!-- PRODUCT_QUESTIONS_38df0112ecd9f68184079da1ac26586e -->
+
+
+                                        <!-- .additional block -->
+
+                                        <!-- /PRODUCT_QUESTIONS_38df0112ecd9f68184079da1ac26586e -->    
+                                        <div class="additional-block qna">
+
+                                            <div class="clearer"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sliders-block">
+
+                                    </div>
+                                </div>
+                                <div id="specsTab_content" class="product-tab-content" style="display: none;"><div class="additional-info specs-tab">
+                                        <table class="tab-top-info"><tbody><tr>
+                                                    <td class="small-info">
+                                                        <div class="small-info-block">
+                                                            <h:graphicImage value="#{user.getAbsolutePathForImage(product)}" height="70"/>
+                                                            <div class="info">
+
+
+
+                                                                <div class="price-box" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+                                                                    <meta itemprop="pricecurrency" content="UAH"/>
+                                                                    <link itemprop="availability" href="http://schema.org/InStock"/>
+                                                                    <span class="regular-price" id="product-price-58753">
+                                                                        <span class="price"><span class=" sum" itemprop="price">#{product.price}</span> <span class="currency">грн.</span></span>                        </span>
+
+                                                                </div>
+
+                                                                <div class="add-to-cart">
+                                                                    <div>
+                                                                        <button id="buy-button-card-674248526" type="button" template="buy_catalog" title="Добавить в корзину" class="button btn-cart red" name="buy-button_58753" onclick="return 'http://allo.ua/checkout/cart/add/uenc/aHR0cDovL2FsbG8udWEvcHJvZHVjdHRhYnMvcHJvZHVjdF90YWJzL2NvbnRlbnQvaWQvNTg3NTMvdGFiL3NwZWNz/product/58753/';" onmouseup="_gaq.push(['_trackEvent', 'Card', 'actions', 'add-to-cart-above']);">
+                                                                            <span>
+                                                                                <span>
+                                                                                    Купить                                    </span>
+                                                                            </span>
+                                                                        </button>
+                                                                        <h:commandLink action="#{user.addToCart}" value="Купити" class="btn-red button btn-cart red " >
+                                                                            <f:param value="#{product.product_id}" name="product_id" />
+                                                                            <f:ajax render=":cartGroup"/>
+                                                                        </h:commandLink>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearer"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#" onclick="func(3)" class="blue-link">
+                                                                    <span>Залишити відгук</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <!--<td>
+                                                    <a href="#" class="blue-link download"><span></span></a>
+                                                    </td>
+                                                    -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <h2>Технические Характеристики</h2>
+
+                                        <div>
+                                            <div class="additional-block">
+                                                <h:dataTable value="#{product.features}" var="feature" rowClasses="odd, even" class="decorated-table">
+                                                    <h:column>
+                                                        #{feature.name}
+                                                    </h:column>
+                                                    <h:column>
+                                                        #{feature.value}
+                                                    </h:column>
+                                                </h:dataTable>
+
+                                            </div>
+                                            <div class="spec-block">
+
+                                            </div>
+                                            <div class="clearer"></div>
+                                        </div>
+
+                                    </div>
+
+                                </div >
+                            </h:form>
+                            <div class="product-tab-content" id="reviewsTab_content">
+                                <h:form>
+                                    <div class="additional-block qna">
+
+                                        <div>
+                                            <div class="qna-form-wrapper">
+                                                <c:if test="#{!user.role.equals('guest')}">
+
+                                                    <div class="popup-content">
+                                                        <div class="askaquestion-popup-formleft"><div class="askcustomerinfo">
+
+                                                                <h3>
+                                                                    Залишити коментар як
+                                                                </h3>
+
+                                                                <a class="account-link" >
+                                                                    <span class="icon"></span>
+                                                                    #{user.account.fname} 
+                                                                </a>
+
+                                                                <div class="clearer"></div>
+                                                            </div></div>
+
+                                                        <div class="textarea-box" id="askaquestion-popup-formright">
+                                                            <h:inputTextarea id="descriprionInputArea" cols="60" rows="6" value="#{user.comment.description}" class="askaquestion-popup-comment required-entry"/><br/>
+                                                        </div>
+                                                        <h:commandButton value="Опублікувати" action="#{user.addComment()}" class="button questionFormSubmit" >
+                                                            <f:param name="productId" value="#{product.product_id}"/>
+                                                            <f:ajax render="@form" execute="descriprionInputArea"/>
+                                                        </h:commandButton>
+                                                        <div class="clearer"></div>
+                                                    </div>
+
+                                                </c:if>
+
+                                            </div>
+
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="c-left">
+
+                                            <div class="question">
+
+
+
+                                                <div class="threeanswersblock" id="3answers256962">
+
+                                                </div>
+                                                <div class="allanswersblock" id="allanswers256962"></div>
+                                            </div>
+
+                                            <div id="all_answers_block">
+
+                                            </div>
+                                        </div><!-- .c-left -->
+                                        <div class="clearer"></div>
+                                    </div>
+                                    <c:forEach var="comment" items="#{product.comments}" >
+
+                                        <div class="reviews-block">
+                                            <div class="review-box" id="review-89045" itemprop="review">
+                                                <div class="review">
+                                                    <div class="review-head">
+                                                        <span class="author" itemprop="author">#{comment.account.fname} #{comment.account.lname},</span>
+                                                        #{comment.date}                                <div>
+
+
+                                                            <div class="clearer"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review-content">
+                                                        <p class="review-text" itemprop="description">
+                                                            #{user.nl2br(comment.description)}              
+                                                        </p>
+                                                    </div>
+                                                    <c:if test="#{user.showAdminPanel}">
+                                                        <h:commandLink action="#{user.dropComment(comment)}" value="X">
+                                                            <f:ajax render="@form" />
+                                                            <f:param name="productId" value="#{product.product_id}"/>
+                                                        </h:commandLink>
+                                                    </c:if>
+                                                </div>
+                                                <div class="clearer"></div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </h:form>
+                            </div>
+                        </div>
+                        <img height="1" width="1" border="0" alt=""/>
+                        <!--<img src="http://utarget.ru/rtcode/2f369f8da6/?url=1" width="1" height="1" alt="" />-->
+                    </div>
+                </div>
+                <!--                wd{id}
+                <div style="margin-left: 10px;">
+                <div class="name">{user.getProductById(id).name}</div>
+                <div style="width: 100%;">
+                <table>
+                <tr>
+                <td class="list-product-image">image</td>
+                <td class="operation-on-product">
+                Price: {user.getProductById(id).price}<br/>
+                Count: {user.getProductById(id).count}<br/>
+                <div style="">
+                <h:form>
+                <h:commandLink action="{user.addToCart}" value="to cart" class="btn btn-warning">
+                <f:param value="{id}" name="product_id" />
+                <f:ajax />
+                </h:commandLink>
+                </h:form>
+                </div>
+                </td>
+                </tr>
+                </table>
+                </div>
+                
+                <div class="description">
+                <c:forEach var="i" begin="1" end="10" step="1">
+                description {i} <br/>
+                </c:forEach>
+                </div>
+                
+                <div style="color: #B4B4B4; margin-top: 100px;">Comments</div>
+                <div class="comments">
+                <h:form>
+                <h:dataTable value="{user.getCommentsByProductId()}" var="comment" rowClasses="oddRow,evenRow" id="awdawd">
+                <c:if test="{user.showAdminPanel}">
+                <h:column>
+                
+                <h:commandLink action="{user.dropComment(comment)}" value="X">
+                <f:ajax render="@form"/>
+                <f:param value="{id}" name="gid"/>
+                </h:commandLink>
+                
+                </h:column>
+                </c:if>
+                
+                <h:column>
+                <f:facet name="header">name</f:facet>
+                {comment.account.fname}
+                </h:column>
+                <h:column>
+                <f:facet name="header">description</f:facet>
+                {comment.description}
+                </h:column>
+                </h:dataTable>
+                </h:form>
+                </div>
+                <c:if test="{!user.role.equals('guest')}">
+                <div style="color: #B4B4B4; margin-top: 100px;">Залишити коментар</div>
+                
+                <h:form>
+                <h:inputTextarea cols="60" rows="10" value="{user.comment.description}"/><br/>
+                <h:commandButton value="Опублікувати" action="{user.addComment()}">
+                <f:param name="product_id" value="{id}"/>
+                
+                </h:commandButton>
+                </h:form>
+                </c:if>
+                
+                </div>-->
+
+
+                <script>
+                    func(1);
+                </script>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
+

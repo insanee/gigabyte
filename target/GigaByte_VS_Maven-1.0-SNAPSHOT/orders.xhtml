@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>Facelet Title</title>
+    </head>
+    <body>
+        <ui:composition template="/templates/main-layout.xhtml" >
+            <ui:define name="content" >
+                <h:form>
+
+
+                    <h:dataTable value="#{user.getOrders()}" var="order" columnClasses="orderNumber, orderStatus" 
+                                 rendered="#{request.getParameter('showOrders')}">
+                        <h:column>
+                            <h:link outcome="/orders?faces-redirect=true">
+                                <h:outputText value="Замовлення ##{order.orderId}" />
+                                <f:param name="view" value="#{order.orderId}"/>
+                                <f:param name="showOrders" value="false"/>
+                            </h:link>
+                        </h:column>
+                        <h:column>
+                            #{order.status}
+                        </h:column>
+                    </h:dataTable>
+
+                    <h:dataTable value="#{user.getOrderById().itemOrders}" var="item" columnClasses="orderNumber, orderStatus" 
+                                 rendered="#{not request.getParameter('showOrders')}" >
+                        <h:column >
+                            <div>
+                                <h:graphicImage value="#{user.getAbsolutePathForImage(item.product)}" width="50"/>
+                                <h:link outcome="/product?faces-redirect=true" value="#{item.product.name}">
+                                    <f:param name="productId" value="#{item.product.product_id}"/>
+                                </h:link>
+                            </div><br/>
+
+                        </h:column>
+                        <h:column>
+                            #{item.count} x #{item.product.price * item.count} грн.
+                        </h:column>
+
+                    </h:dataTable>
+
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
+

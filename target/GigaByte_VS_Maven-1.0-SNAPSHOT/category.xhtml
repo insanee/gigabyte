@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html >
+    <head>
+        <title>TODO supply a title</title>
+
+    </head>
+    <body >
+        <ui:composition template="/templates/main-layout.xhtml" 
+                        xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:ui="http://java.sun.com/jsf/facelets"
+                        xmlns:f="http://xmlns.jcp.org/jsf/core"
+                        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                        xmlns:h="http://xmlns.jcp.org/jsf/html"
+                        xmlns:a4j="http://richfaces.org/a4j">
+            <ui:define name="content">
+                #{user.setCurrentCountProduct(3)}
+
+
+
+                <h:form >
+
+                    <!--update product form-->
+
+<!--                    <div style="display: none;">
+
+                        <div class="box-modal" id="redag-modal">
+                            <div class="box-modal_close arcticmodal-close">закрыть</div>
+                            <table >
+                                <tr>
+                                    <td>
+                                        <div class="input-container">
+                                            <h:inputText value="{updateProductBean.product.name}"  style="width: 170px"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="input-container">
+                                            <h:inputText value="{updateProductBean.product.count}" style="width: 170px"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="input-container">
+                                            <h:inputText value="{updateProductBean.product.price}" style="width: 170px"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:inputTextarea value="{updateProductBean.product.description}" rows="5" cols="40" style="margin-left: 10px;" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:selectOneMenu value="{updateProductBean.testValue}"  style="width: 190px; margin-left: 10px;" >
+                                            <f:selectItems value="{updateProductBean.getSelectedItemMainCategory()}"></f:selectItems>
+                                            <f:ajax  />
+                                        </h:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:selectOneMenu value="{updateProductBean.categoryId}" 
+                                                         id="resultUpdate" 
+                                                         style="width: 190px; margin-left: 10px;"> 
+                                            <f:selectItems value="{updateProductBean.getSelectedItemSubcategories()}" ></f:selectItems>
+
+                                        </h:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:commandButton action="{updateProductBean.updateProduct()}" value="update product" style="width: 190px; margin-left: 10px;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>-->
+
+
+
+                    <!--END UPDATE PRODUCT FORM-->
+                    <!--
+                    
+                                        <ui:repeat value="{user.getNextPage(user.selectedCategoryId)}" var="prod" varStatus="status">
+                                            <div class="product">
+                                                <div class="product-header">
+                                                    <h:link outcome="/product?faces-redirect=true" value="{prod.name}">
+                                                        <f:param name="productId" value="{prod.product_id}"/>
+                                                    </h:link>
+                                                    <h:outputLink value="/GigaByte/catalog/cid/{prod.category.category_id}/gid/{prod.product_id}">#{prod.name} output link</h:outputLink>
+                    
+                                                </div>
+                                                <div class="product-image">id: {prod.product_id}</div>
+                                                <div class="product-overview">
+                                                    <div class="product-button">
+                    
+                                                        <c:set var="flag" value="true" scope="session"/>
+                                                        <c:if test="{user.showAdminPanel}">
+                    
+                    
+                                                            <table style="">
+                                                                <tr>
+                                                                    <td>
+                                                                        <div style="margin-left: 20px; color: red;  width: 96px; height: 50px; float: left; " class="button-update-product">
+                    
+                                                                            <h:commandLink style="width: 80px;" class="btn btn-default button-redag">
+                                                                                <f:ajax listener="{updateProductBean.setProduct(prod)}" render="@form" />
+                                                                                <h:outputText value="redag"/>
+                                                                            </h:commandLink>
+                    
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div style=" margin-left: 20px;  width: 85px; height: 50px; float: left;">
+                    
+                                                                            <h:commandLink action="{user.dropProduct(prod)}" style="width: 80px;" value="drop" class="btn btn-default">
+                                                                                <f:ajax render="@form" />
+                                                                            </h:commandLink>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                    
+                                                            </table>
+                                                        </c:if>
+                                                        <c:if test="{!user.showAdminPanel}">
+                                                            <div style="height: 35px;"></div>
+                                                        </c:if>
+                    
+                                                        <h:link outcome="/product" value="Перегляд" style="margin-left: 37px; width: 80px;" class="btn btn-default">
+                                                            <f:param name="gid" value="{prod.product_id}"/>
+                                                        </h:link>
+                    
+                                                        <h:commandLink action="{user.addToCart}" value="To cart" style="margin-left: 11px; width: 80px;" class="btn btn-default">
+                                                            <f:param value="{prod.product_id}" name="product_id" />
+                                                            <f:ajax />
+                                                        </h:commandLink>
+                                                    </div>
+                                                </div>
+                                            </div>
+                    
+                                        </ui:repeat>-->
+                    <!--
+                                        <div id="show-more-product">
+                                            <h:commandButton class="btn btn-show-more-product" value="Show more product">
+                                                <f:ajax listener="{user.nextPageListener()}" render="@form"/>
+                                            </h:commandButton>
+                                        </div>-->
+
+                    <ul class="products-grid">
+                        <c:forEach items="#{user.getNextPage(user.selectedCategoryId)}" var="product">
+                            <li class="item" style="width: 200px;">
+                                <div class="item-inner" style="width: 175px; " >
+
+                                    <a title="#{product.name}" class="product-image" style="width: 150px; height: 190px; margin-left: 0px;">
+
+
+                                        <!--<img src="{user.getAbsolutePathForImage(product)}" alt="" class="img" />-->
+                                        <h:graphicImage value="#{user.getAbsolutePathForImage(product)}" style="max-height: 180px; max-width: 180px;"/>
+                                    </a>
+                                    <h:link outcome="/product?faces-redirect=true" value="#{product.name}">
+                                        <f:param name="productId" value="#{product.product_id}"/>
+                                    </h:link>
+                                    <!--                        <p class="product-name-container">
+                                                                <a class="product-name" href="" title="{product.name}" >
+                                                                    {product.name}
+                                                                </a>
+                                                            </p>-->
+                                    <!-- REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->
+                                    <!-- /REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->                                                
+
+
+                                    <div class="buy-box">
+
+
+
+                                        <div class="price-box" style="width: 95px;">
+                                            <!--<meta itemprop="pricecurrency" content="UAH">-->
+                                            <span class="regular-price" id="product-price-58858">
+                                                <span class="price">
+                                                    <span class="sum" itemprop="price">#{product.price}</span> 
+                                                    <span class="currency">грн.</span>
+                                                </span>
+                                            </span>
+                                        </div>
+
+                                        <span>
+
+                                            <h:commandLink action="#{user.addToCart}" value="Купити" class="btn-red button btn-cart red " >
+                                                <f:param value="#{product.product_id}" name="product_id" />
+                                                <f:ajax render=":cartGroup"/>
+                                            </h:commandLink>
+                                        </span>
+                                        <c:if test="#{user.showAdminPanel}"><br/>
+
+                                            <h:commandLink action="#{user.dropProduct(product)}"  value="Видалити" class="button btn-cart red btn-red">
+                                                <f:ajax render="@form" />
+                                            </h:commandLink>
+                                            <br/>
+
+                                            <!--                                            <h:commandLink  value="Редагувати" class="button btn-cart red btn-red">
+                                                                                            
+                                                                                        </h:commandLink>-->
+                                            <button id="buy-button-card-674248526" type="button" template="buy_catalog" title="Редагувати" class="button btn-cart red updateClicker" >
+                                                <span>
+                                                    <span>
+                                                        Редагувати                                    
+                                                    </span>
+                                                </span>
+                                            </button>
+                                        </c:if>
+                                    </div>
+
+                                    <div class="grid">
+                                        <p class="in-stock"><span class="icon"></span>Товар есть в наличии</p>
+
+
+                                        <p class="sku">
+                                            код товара: #{product.product_id}                            </p>
+                                    </div>
+
+                                    <!-- COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                    
+
+
+                                    <!-- /COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                        
+                                    <!--hover block-->
+                                    <div class="attributes por" style="">
+                                        <div class="content">
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                    <div class="more-goods">
+                        <h:commandLink value="Ще 3 товари" class="more-goods-link">
+                            <f:ajax render="@form" listener="#{user.nextPageListener()}"/>
+                        </h:commandLink>
+                    </div>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

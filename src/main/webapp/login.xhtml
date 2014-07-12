@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/main-layout.xhtml" 
+                        xmlns="http://www.w3.org/1999/xhtml"   
+                        xmlns:h="http://java.sun.com/jsf/html"
+                        xmlns:ui="http://java.sun.com/jsf/facelets"
+                        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+            <ui:define name="content">
+
+                <c:set value="#{request.getParameter('path')}" var="item" />
+                <c:set value="#{request.getAttribute('path')}" var="item2" />
+
+                <div class="main col1-layout" style="#{(not empty item and item.equals('login')) ? 'display: block;' : 'display: none;' }}">
+                    <div class="col-main">
+                        <div class="account-login">
+                            <h1 class="page-title">
+                                Увійдіть або зареєструйтеся            </h1>
+
+                            <div id="advanced-navigation-overlay" style="top: 0px; left: -25px; width: 104%; height: 794px; z-index: 1000; display: none;"></div>
+
+                            <ul class="messages" id="messages" style="display:none;">
+                                <li class="error-msg">
+                                    <ul>
+                                        <li>
+                                            <span id="error-message-login"></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+
+                            <div class="fieldset">
+                                <div class="col2-set">
+                                    <div class="col-1 registered-users">
+                                        <h2 class="legend">Зареєстровані клієнти</h2>
+                                        <p>Если у вас есть учётная запись на нашем сайте, пожалуйста, авторизируйтесь.</p>
+                                        <h:form class="form-228">
+                                            <ul class="form-list">
+                                                <li>
+                                                    <label for="email" class="required"><em>*</em>Логін</label>
+                                                    <div class="input-box">
+                                                        <h:inputText value="#{user.login}" id="login" class="input-text required-entry validate-email" >
+                                                            <!--<f:validator validatorId="validators.LoginValidator" />-->
+                                                            <!--<f:attribute name="password" value="{passwordL}"/>-->
+                                                        </h:inputText>
+                                                        <h:message for="login" style="color: red;" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <label for="pass" class="required"><em>*</em>Пароль</label>
+                                                    <div class="input-box">
+                                                        <h:inputSecret class="input-text required-entry validate-password" 
+                                                                       value="#{user.password}" 
+                                                                       id="passwordL" 
+                                                                       binding="#{passwordL}"/>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="buttons-set form-buttons btn-only">
+                                                <h:commandButton value="#{msgs.login}" action="#{user.check}" class="button btn-black" >
+                                                    <!--<f:ajax />-->
+                                                </h:commandButton>
+                                            </div>
+                                        </h:form>
+                                        <p class="required">* Обязательные поля</p>
+
+                                        <div id="socialWindow" class="lightbox cart-lightbox social-lightbox" style="display:none"></div>
+                                        <div id="socialWindow365" class="lightbox cart-lightbox social-lightbox" style="display:none"></div>
+
+                                        <div id="fb-root"></div>
+
+                                        <div class="socialLogin">
+                                            <div class="socialHr"></div>
+                                            <div class="socialOr">или</div>
+                                            <h2 class="socialMessage">
+                                                Вы можете войти через социальные сети:
+                                            </h2>
+                                            <div class="socialButtons">
+                                                <a href="#" class="vkontakteButton" onclick="return allo.social.loginWindow('vkontakte', window.location.pathname)">Vkontakte</a>
+                                                <span class="socialButtonSpace"></span>
+                                                <a href="#" class="facebookButton" onclick="return allo.social.loginWindow('facebook', window.location.pathname)">Facebook</a>
+                                                <span class="socialButtonSpace"></span>
+                                                <a href="#" class="odnoklassnikiButton" onclick="return allo.social.loginWindow('odnoklassniki', window.location.pathname)">Odnoklassniki</a>
+                                                <div class="clearer"></div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-2 new-users">
+                                        <h2 class="legend">Новые клиенты</h2>
+                                        <p>Создав учётную запись на нашем сайте, вы будете тратить меньше времени на оформление заказа, сможете хранить несколько адресов доставки и отслеживать состояние заказов.</p>
+                                        <div class="buttons-set">
+                                            <button type="button" class="button btn-black">
+                                                <span><span>
+                                                        <h:link value="Реєстрація" outcome="/login?faces-redirect=true" >
+                                                            <f:param name="path" value="create"/>
+                                                        </h:link>
+                                                    </span></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="clearer"></div>
+                        </div>
+                        <div id="ooo"> 
+                            <div class="lb-content"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="account-create" style="#{((not empty item or not empty item2) and 'create'.equals(item) or 'create'.equals(item2)) ? 'display: block;' : 'display: none;' } margin-left: auto;">
+
+                    <h1 class="page-title">Реєстрація</h1>
+
+                    <div id="advanced-navigation-overlay" style="top: 130px; left: 0px; width: 100%; height: 871px; z-index: 1000; display: none;"></div>
+
+                    <ul class="messages" id="messages" style="display:none;">
+                        <li class="error-msg">
+                            <ul id="list-of-messages"></ul>
+                        </li>
+                    </ul>
+
+                    <h:form class="form-228" prependId="" id="form-validate" rendered="#{((not empty item or not empty item2) and 'create'.equals(item) or 'create'.equals(item2))}">
+                        <div class="fieldset">
+                            <ul class="form-list">
+                                <li class="fields">
+                                    <div class="customer-name-middlename">
+
+                                        <div class="field name-firstname">
+                                            <label for="firstname" class="required"><em>*</em>Логін:</label>
+                                            <div class="input-box">
+                                                <h:inputText value="#{user.account.login}" class="input-text required-entry"/>
+                                                <!--<input type="text" id="firstname" name="firstname" value="" title="Имя" class="input-text required-entry" autocomplete="off" />-->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <label for="email_address" class="required"><em>*</em>Електрона пошта (email):</label>
+                                    <div class="input-box">
+                                        <h:inputText id="email" value="#{user.account.email}" class="input-text validate-email required-entry">
+                                            <f:validator validatorId="validators.EmailValidator" />
+
+                                        </h:inputText>
+
+                                        <h:message for="email" style="color:red" />
+                                    </div>
+                                </li>
+                                <li class="fields">
+                                    <div class="field">
+                                        <label for="password" class="required"><em>*</em>Пароль:</label>
+                                        <div class="input-box">
+                                            <h:inputSecret id="password" value="#{user.account.password}">
+                                                <f:validator validatorId="validators.passwordValidator" />
+                                                <f:attribute name="conffirmPassword" value="#{conffirmPassword}"/>
+                                            </h:inputSecret>
+                                            <h:message for="password" style="color: red;" />
+                                            <!--                                            <input type="password" name="password" id="password" title="Пароль"  autocomplete="off" />-->
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="fields">
+                                    <div class="field">
+                                        <label for="password" class="required"><em>*</em>Підтвердіть пароль:</label>
+                                        <div class="input-box">
+                                            <h:inputSecret id="conffirmPassword" value="#{user.account.password}"
+                                                           binding="#{conffirmPassword}"
+                                                           class="input-text required-entry validate-password" />
+                                            <h:message for="conffirmPassword" style="color: red;" />
+                                            <!--<input type="password" name="password" id="password" title="Пароль" class="input-text required-entry validate-password" autocomplete="off" />-->
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="fields">
+                                    <div class="field">
+                                        <label for="password" class="required"><em>*</em>Імя:</label>
+                                        <div class="input-box">
+                                            <h:inputText id="fname" value="#{user.account.fname}" class="input-text required-entry validate-password"/>
+                                            <!--<input type="password" name="password" id="password" title="Пароль" class="input-text required-entry validate-password" autocomplete="off" />-->
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="fields">
+                                    <div class="field">
+                                        <label for="password" class="required"><em>*</em>Фамілія:</label>
+                                        <div class="input-box">
+                                            <h:inputText id="lname" value="#{user.account.lname}" class="input-text required-entry validate-password"/>
+                                            <!--<input type="password" name="password" id="password" title="Пароль" class="input-text required-entry validate-password" autocomplete="off" />-->
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="fields">
+                                    <div class="field">
+                                        <label for="password" class="required"><em>*</em>Адреса:</label>
+                                        <div class="input-box">
+                                            <h:inputText id="city" value="#{user.account.address}" class="input-text required-entry validate-password"/>
+                                            <!--<input type="password" name="password" id="password" title="Пароль" class="input-text required-entry validate-password" autocomplete="off" />-->
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="fields">
+                                    <div class="field">
+                                        <label for="password" class="required"><em>*</em>Телефон:</label>
+                                        <div class="input-box">
+                                            <h:inputText id="phone" value="#{user.account.phone}" class="input-text required-entry validate-password" >
+                                                <f:validator validatorId="validators.PhoneValidator"/>
+                                            </h:inputText>
+                                            <h:message for="phone"  style="color:red"/>
+                                            <!--<input type="password" name="password" id="password" title="Пароль" class="input-text required-entry validate-password" autocomplete="off" />-->
+                                        </div>
+                                    </div>
+                                </li>
+                                <!--                                <li id="tos" class="tos control soft-label">
+                                                                    <label for="tosCheckbox">Принимаю <a id="tosLink" href="javascript:;">пользовательское соглашение</a></label>
+                                                                    <div class="input-box"><input type="checkbox" class="required-entry" checked="" id="tosCheckbox" autocomplete="off" /></div>
+                                                                    <div class="clearer"></div>
+                                                                </li>-->
+
+
+                            </ul>
+                        </div>
+                        <div class="buttons-set form-buttons">
+                            <h:commandButton value="Реєстрація"  class="btn btn-orange" action="#{user.register()}">
+                                
+                            </h:commandButton>
+                        </div>
+
+<!--                        <div id="socialWindow" class="lightbox cart-lightbox social-lightbox" style="display:none"></div>
+                        <div id="socialWindow365" class="lightbox cart-lightbox social-lightbox" style="display:none"></div>
+
+                        <div id="fb-root"></div>-->
+
+<!--                        <div class="socialLogin">
+                            <div class="socialHr"></div>
+                            <div class="socialOr">или</div>
+                            <h2 class="socialMessage">
+                                Вы можете войти через социальные сети:
+                            </h2>
+                            <div class="socialButtons">
+                                <a href="#" class="vkontakteButton" onclick="return allo.social.loginWindow('vkontakte', window.location.pathname)">Vkontakte</a>
+                                <span class="socialButtonSpace"></span>
+                                <a href="#" class="facebookButton" onclick="return allo.social.loginWindow('facebook', window.location.pathname)">Facebook</a>
+                                <span class="socialButtonSpace"></span>
+                                <a href="#" class="odnoklassnikiButton" onclick="return allo.social.loginWindow('odnoklassniki', window.location.pathname)">Odnoklassniki</a>
+                                <div class="clearer"></div>
+
+                            </div>
+                        </div>-->
+                    </h:form>
+
+                </div>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

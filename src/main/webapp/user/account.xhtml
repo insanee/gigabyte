@@ -1,0 +1,55 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width"/>
+    </head>
+    <body>
+        <ui:composition template="/templates/main-layout.xhtml">
+            <ui:define name="content">
+                <div style="width: 300px; margin-left: 10px; font-size: 20px;">
+                    Про <b>#{user.account.login}</b>
+                    <h:form>
+                        <h:dataTable value="#{user.arrayListUser}" var="item" styleClass="user-account">
+                            <h:column >
+
+                                <span style="color: #777777;">#{item.key}</span> 
+                                <h:commandLink >
+                                    <h:graphicImage value="../images/userfield_edit.gif"/>
+                                    <f:ajax render="@form" listener="#{user.listener(item)}"/>
+                                </h:commandLink><br/>
+
+                                <h:outputText value="#{item.value}" rendered="#{not item.editable}" />
+
+                                <h:panelGroup rendered="#{item.editable}" >
+                                    <div class="update-account-panel">
+                                        <h:inputText value="#{item.newValue}" style="margin-top: 15px;margin-left: 15px;">
+                                            <f:ajax listener="#{user.updateAccountInfo(item)}" event="change" render="@form"/>
+                                        </h:inputText>
+                                        <div class="button-user-account">
+                                            <h:commandButton value="save" style="width: 70px;" class="btn btn-warning">
+                                                <f:ajax listener="#{user.save()}" render="@form"/>
+                                            </h:commandButton>
+                                            <h:commandButton value="cancel" style="width: 70px; margin-left: 10px;" class="btn btn-warning">
+                                                <f:ajax  listener="#{user.cancel(item)}" render="@form"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </div>
+                                </h:panelGroup>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

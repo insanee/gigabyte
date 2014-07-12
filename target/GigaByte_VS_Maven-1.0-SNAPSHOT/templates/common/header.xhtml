@@ -1,0 +1,242 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <!--    <h:form>
+            <div id="top">
+    
+                
+    
+            </div>
+            <div id="menu">
+                <table id="menu_bar">
+                    <tr>
+                        <td><span class="menu_item">HOME</span></td>
+                        <td><span class="menu_item">HARDWARE</span></td>
+                        <td><span class="menu_item">SOFTWARE</span></td>
+                        <td><span class="menu_item">PC/LAPTOP</span></td>
+                        <td><span class="menu_item">
+                                <h:commandLink value="CONTACTS" action="/connection-with-the-administration.xhtml"/>
+                            </span></td>
+                    </tr>
+                </table>
+            </div>
+        </h:form>-->
+    <div class="page">
+        <div id="headerContainer" class="header-container">
+            <div style="display: none" id="lightboxTemplate">
+
+                <div class="lb-content">#{content}</div>
+                <a href="javascript:;" class="lb-close icon"></a>
+
+            </div>
+            <div class="header">
+                <table class="header-table"><tr>
+
+                        <!-- left section -->
+                        <td class="h-left">
+                            <h1 class="logo">
+                                <strong>Інтернет-магазин GigaByte</strong>
+                                <a href="" title="Інтернет-магазин GigaByte" class="logo">
+                                    <!--                                    <h:form>
+                                                                            <h:commandLink action="/index?faces-redirect=true">
+                                                                                <h:graphicImage value="http://i.allo.ua/skin/frontend/enterprise/allo/images/logo.png"/>
+                                                                            </h:commandLink>
+                                                                        </h:form>-->
+                                    <!--<img src="http://i.allo.ua/skin/frontend/enterprise/allo/images/logo.png" alt="Інтернет-магазин GigaByte" />-->
+                                </a>
+                            </h1>
+                            <div class="logo-text">
+                                <h:form>
+                                    <h:commandLink action="/index?faces-redirect=true">
+                                        <h:outputText value="Fuck you stuped bitch"/>
+                                    </h:commandLink>
+                                </h:form>
+
+                            </div>
+                        </td>
+
+                        <!-- center section -->
+                        <td class="h-center">
+
+                            <div class="por">    <ul class="header-links">
+                                    <li> <a href="">Магазини</a> </li>
+                                    <li> <a href="">Доставка і оплата</a> </li>
+                                    <li> <a href="">Гарантія</a> </li>
+                                    <li> <a href="">Кредит</a> </li>
+                                    <li> <a href="">Допомога</a> </li>
+                                    <li> <a href="/GigaByte/contact-us">Контакти</a> </li>
+                                </ul></div>
+
+                            <div id="phone" class="phone">
+                                <div
+                                    >
+                                    <span class="icon1"></span> 0 961 958 794        <span class="icon"></span>
+                                </div>
+                                <div id="phonePopup" class="phone-popup" style="display: none">
+                                    <div class="phone-inner">
+                                        <ul>
+                                            <li>
+
+                                            </li>
+                                            <li>
+
+                                            </li>
+                                            <li>
+
+                                            </li>
+                                        </ul>
+                                        <p class="note">
+                                            *Дзвінки по україні безкоштовні.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <h:form id="search_mini_form" class="search-mini-form" >
+                                <div class="form-search">
+                                    <div class="por_new input-container" style="background-color: white;">
+
+                                        <h:inputText value="#{user.searchText}"/>
+                                        <div style="display: none;" id="search_autocomplete" class="search-autocomplete"></div>
+                                        <div class="button_container">
+                                            <h:commandLink class="button" action="#{user.goSearch()}">
+                                                <span><span>Знайти</span> </span>
+                                            </h:commandLink>
+                                            <!--<h:commandButton  value="Знайти" action="/GigaByte/catelog/se"/>-->
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </h:form>
+                        </td>
+
+                        <!-- right section -->
+                        <td class="h-right">
+                            <div class="right-wrapper">
+                                <!-- ACCLINKS_0b8af6b0630aa2518a1be3f633204d95 --><div class="links-wrapper">
+                                    <div class="links-wrapper">
+                                        <c:choose>
+                                            <c:when test="#{user.authentication}">
+                                                <h:form>
+                                                    <div id="first">
+                                                        <h:commandLink value="#{user.account.fname}" action="user/account?faces-redirect=true"></h:commandLink>
+                                                    </div>
+
+                                                    <div id="last">
+                                                        <h:commandLink value="Вихід" action="#{user.logout()}" />
+                                                    </div>
+                                                </h:form>
+                                            </c:when>
+                                            <c:when test="#{!user.authentication}">
+                                                <h:form>
+                                                    <div id="first">
+                                                        <!--<a href="/GigaByte/account/login">Увійти</a>-->
+                                                        <h:link value="Увійти" outcome="/login?faces-redirect=true">
+                                                            <f:param name="path" value="login"/>
+                                                        </h:link>
+                                                    </div>
+
+                                                    <div id="last">
+                                                        <!--<a href="/GigaByte/account/create">Реєстрація</a>-->
+                                                        <h:link value="Реєстрація" outcome="/login?faces-redirect=true" >
+                                                            <f:param name="path" value="create"/>
+                                                        </h:link>
+                                                    </div>
+                                                </h:form>
+                                            </c:when>
+                                        </c:choose>
+
+                                    </div>
+                                    <div id="userHeaderBar"></div>
+                                </div>
+
+                                <!-- /ACCLINKS_0b8af6b0630aa2518a1be3f633204d95 -->                    <div class="clearer"></div>
+                                <!-- CART_SIDEBAR_07367654ae6ec21d6ec12a6e9f60d72e --><div id="topCart" class="top-cart">
+
+
+                                    <div id="topCartTitle" style="display:none" class="block-title no-items" >
+                                    </div>
+
+                                    <div id="topCart" class="top-cart">
+
+
+                                        <div id="topCartTitle" class="block-title no-items">
+                                            <span class="icon_cart_big"></span>
+                                            <span class="cart-title" id="cartHeader">
+                                                <h:panelGroup id="cartGroup">
+                                                    <c:if test="#{empty user.getCart().itemCart or user.getCart().itemCart.size() == 0 }">
+                                                        Ваша корзина порожня
+                                                    </c:if>
+                                                    <c:if test="#{ not empty user.getCart() and user.getCart().itemCart.size() != 0}">
+                                                        <h:form>
+                                                            <h:commandLink value="У корзині #{user.getCart().itemCart.size()} товарів" action="/cart?faces-redirect=true"/>
+                                                        </h:form>
+                                                    </c:if>
+                                                </h:panelGroup>
+                                            </span>
+                                        </div>
+                                        <div id="bottomCartTitle" class="block-title-bottom no-items"></div>
+
+
+                                    </div>
+
+                                </div>
+                                <!-- /CART_SIDEBAR_07367654ae6ec21d6ec12a6e9f60d72e -->                </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="no-display">
+                    <!-- Google Code for &#1042;&#1089;&#1077; &#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1080; -->
+                    <!-- Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. For instructions on adding this tag and more information on the above requirements, read the setup guide: google.com/ads/remarketingsetup -->
+
+                    <noscript>
+                        <div style="display:inline;">
+                            <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1053169504/?value=0&amp;label=gq5PCMbT0AEQ4K6Y9gM&amp;guid=ON&amp;script=0"/>
+                        </div>
+                    </noscript>
+
+
+                </div>
+            </div>
+            <div id="menuContainer"><!-- CATALOG_NAVIGATION_842307a1acf699ab5bcdcc5bfe49f7ba --><div class="nav-container">
+                    <div class="nav-wrapper">
+                        <table id="nav">
+                            <tr>
+                                <c:forEach items="#{user.categories}" var="categories">
+                                    <td class="level0 nav-#{categories.category_id} level-top first " param="#{categories.name}"><div class="relative-wrapper" ><span class="menu-separator"></span><span class="right-separator"></span>
+                                            <h:outputLink value="/GigaByte/catalog/cid/#{categories.category_id}?product=all" class="level-top">
+                                                #{categories.name}
+                                            </h:outputLink>
+                                        </div>
+                                    </td>
+                                </c:forEach>
+
+                            </tr>
+                        </table>
+
+                    </div>        </div>
+                <h:form>
+                    <c:forEach var="category" items="#{user.categories}">
+                        <div class="subcategories #{category.name}">
+                            <ul>
+                                <c:forEach var="item" items="#{category.categories}">
+                                    <li>
+                                        <!--<h:outputLink value="/GigaByte/catalog/cid/{item.category_id}">{item.name}</h:outputLink>-->
+                                        <h:link outcome="/category?faces-redirect=true" value="#{item.name}">
+                                            <f:param name="categoryId" value="#{item.category_id}"/>
+                                        </h:link>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </c:forEach>
+                </h:form>
+            </div>
+        </div>
+    </div>
+
+</ui:composition>

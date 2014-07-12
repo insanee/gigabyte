@@ -1,0 +1,12 @@
+
+.header-container,
+.footer-before-container,
+.footer-container,
+.widget,
+.pager,
+.toolbar,
+.actions,
+.buttons-set { display:none !important; }
+
+.page-print .data-table .cart-tax-total { background-position:100% -54px; }
+.page-print .data-table .cart-tax-info { display:block !important; }

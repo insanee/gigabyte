@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/main-layout.xhtml">
+            <ui:define name="content">
+                <h:form >
+                    <h:panelGrid columns="1" style="margin: 0 auto;">
+
+                        <c:choose>
+                            <c:when test="#{user.authentication}">
+                                #{sendMessageBean.setEmail(user.account.email)}
+                                #{sendMessageBean.setName(user.account.fname)}
+                                <h:inputText style="width: 503px;" value="#{sendMessageBean.email}" disabled="true"/><br/>
+                                <h:inputText style="width: 503px;" value="#{sendMessageBean.name}" disabled="true"/><br/>
+                            </c:when>
+                            <c:when test="#{!user.authentication}">
+                                <h:inputText style="width: 503px;" pt:placeholder="*Enter you email.." value="#{sendMessageBean.email}"/><br/>
+                                <h:inputText style="width: 503px;" pt:placeholder="*Enter you name.." value="#{sendMessageBean.name}"/><br/>
+                            </c:when>
+
+                        </c:choose>
+                        <h:inputTextarea cols="61" rows="10" pt:placeholder="*Enter you message.." value="#{sendMessageBean.message}"/><br/>
+                        <h:commandButton value="connect" action="#{sendMessageBean.sendMessage()}" class="btn btn-warning"/>
+
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

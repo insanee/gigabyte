@@ -1,0 +1,74 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <div id="left-panel">
+        <!--        <div id="search-old">
+                    <h:form>
+        
+                        <h:selectOneMenu class="search_category" > 
+                            <f:selectItem itemLabel="ALL" itemValue="ALL"></f:selectItem>
+                            <f:selectItems value="#{user.namesCategories}"></f:selectItems>
+                        </h:selectOneMenu>
+                        <br/><br/>
+                        <div class="input-container-old">
+                            <h:inputText style="width: 170px"/>
+                        </div>
+                        <div class="search-button">
+                            <h:commandLink style="width: 55px;" class="btn btn-warning">
+                                <h:outputText value="Пошук" />
+                            </h:commandLink>
+                        </div>
+                        <br/><br/>
+                        <span style="color: #B4B4B4; margin-left: 10px;">Search any product in our database.</span>
+                    </h:form>
+                </div>
+                <div id="left-menu">
+                    <h:form>
+                        <c:forEach var="info" items="#{user.categories}">
+                            <div class="hardware"><span class="name-category">#{info.name}</span></div>
+        
+                            <div class="show-category">
+                                <div class="category">
+                                    <ul>
+                                        <c:forEach var="item" items="#{info.categories}">
+                                            <li>
+                                                <h:link outcome="/category" value="#{item.name}">
+                                                    <f:param name="item" value="#{item.category_id}" />
+                                                </h:link>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
+        
+                        </c:forEach>
+                    </h:form>
+                </div>-->
+        <c:choose>
+            <c:when test="#{not user.isShowLeftBanners(request.pathInfo) }" >
+                <span style="font-size: 20px;">#{user.getCurrentPage(request.pathInfo)}</span>
+                <h:form>
+                    <ul class="account-menu">
+                        <li><h:commandLink value="Особиста інформація" action="/user/account?faces-redirect=true" disabled="#{not user.authentication}"/></li>
+                        <li><h:commandLink value="Корзина" action="/cart?faces-redirect=true" /></li>
+                        <li>
+                            <h:link value="Мої замовлення" outcome="/orders?faces-redirect=true" disabled="#{not user.authentication}">
+                                <f:param name="showOrders" value="true"/>
+                            </h:link>
+                        </li>
+                <!--<li><h:outputLink  value="/GigaByte/order"  disabled="#{not user.authentication}">Мої замовлення</h:outputLink></li>-->
+                    </ul>
+                </h:form>
+            </c:when>
+            <c:when test="#{user.isShowLeftBanners(request.pathInfo) }">
+                <c:forEach var="i" begin="1" end="4" varStatus="status">
+                    <img src="http://t1.gstatic.com/images?q=tbn:ANd9GcQqZdKLG3R4TN5mFUUXT0TSIv-KJDOxDFYUOClKqWQdtcYsGPJn"/><br/><br/>
+                </c:forEach>
+            </c:when>
+        </c:choose>
+
+    </div>
+</ui:composition>
