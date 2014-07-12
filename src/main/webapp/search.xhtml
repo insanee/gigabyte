@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      >
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -10,79 +11,125 @@
                         xmlns="http://www.w3.org/1999/xhtml"   
                         xmlns:h="http://java.sun.com/jsf/html"
                         xmlns:ui="http://java.sun.com/jsf/facelets"
-                        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                        xmlns:f="http://xmlns.jcp.org/jsf/core">
             <ui:define name="content">
                 <ul class="products-grid">
+                    <h:form>
             <c:forEach items="#{user.getFindsProduct()}" var="product">
                 <li class="item" style="width: 200px;">
-                    <div class="item-inner" style="width: 193px;">
-                        <a href="http://allo.ua/ru/products/mobile/samsung-galaxy-s4-i9500-deep-black.html" title="Samsung Galaxy S4 I9500 Black Edition" class="product-image" onclick="_gaq.push(['_trackEvent', 'Catalog', 'Мобильные телефоны и смартфоны | Телефоны', 'click-goods-catalog']);">
+                        <div class="item-inner" style="width: 175px; " >
 
-                            <!--                                <span class="promo-label credit"></span>
-                                                            <span class="promo-label event"></span>
-                                                            <span class="promo-label top"></span>
-                                                            <span class="promo-label label-fon"></span>-->
+                            <a title="#{product.name}" class="product-image" style="width: 150px; height: 190px; margin-left: 0px;">
 
-                            <img src="" alt="" class="img" />
-                        </a>
-                        <p class="product-name-container">
-                            <a class="product-name" href="" title="Samsung Galaxy S4 I9500 Black Edition" >
-                                #{product.name}
+
+                                <!--<img src="{user.getAbsolutePathForImage(product)}" alt="" class="img" />-->
+                                <h:graphicImage value="#{user.getAbsolutePathForImage(product)}" style="max-height: 180px; max-width: 180px; text-align: center;" />
                             </a>
-                        </p>
-                        <!-- REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->
-                        <!-- /REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->                                                
+                            <h:link outcome="/product?faces-redirect=true" value="#{product.name}">
+                                <f:param name="productId" value="#{product.product_id}"/>
+                            </h:link>
+                            <!--                        <p class="product-name-container">
+                                                        <a class="product-name" href="" title="{product.name}" >
+                                                            {product.name}
+                                                        </a>
+                                                    </p>-->
+                            <!-- REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->
+                            <!-- /REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->                                                
 
 
-                        <div class="buy-box">
+                            <div class="buy-box">
 
 
 
-                            <div class="price-box" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
-                                <!--<meta itemprop="pricecurrency" content="UAH">-->
-                                <span class="regular-price" id="product-price-58858">
-                                    <!--<span class="price"><span class="sum" itemprop="price">4&nbsp;999</span> <span class="currency">грн.</span></span>                        </span>-->
-                                </span>
-                            </div>
-
-                            <span>
-                                <button type="button" template="buy_catalog_grid" id="buy-button-catalog-410300280" name="buy-button_58858" title="Добавить в корзину" class="button btn-cart red" onclick=" return 'http://allo.ua/checkout/cart/add/product/58858/';" onmouseup="_gaq.push(['_trackEvent', 'Catalog', 'Мобильные телефоны и смартфоны | Телефоны', 'add-to-cart-catalog']);">
-                                    <span><span>
-                                            Купить                                        </span></span>
-                                </button>
-
-                            </span>
-                        </div>
-
-                        <div class="grid">
-                            <p class="in-stock"><span class="icon"></span>Товар есть в наличии</p>
-
-
-                            <p class="sku">
-                                код товара: #{product.product_id}                            </p>
-                        </div>
-
-                        <!-- COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                    
-
-
-                        <!-- /COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                        
-                        <!--hover block-->
-                        <div class="attributes por">
-                            <div class="content">
-                                <div class="attr-container">
-                                    <p class="attr-content">
-                                        <strong>Диагональ экрана: </strong> 5";  <strong>Операционная система: </strong> Android 4.2 Jelly Bean;  <strong>Внутренняя память: </strong> 16 Гб;  <strong>Поддержка карт памяти: </strong> microSD до 64 Гб;  <strong>Количество SIM-карт: </strong> 1 SIM;  <strong>Формат SIM-карты: </strong> microSIM;  <strong>Камера: </strong> 13 Mpx;  <strong>Bluetooth: </strong> Bluetooth 4.0;  <strong>Wi-Fi: </strong> IEEE 802.11 b/g/n;  <strong>GPS: </strong> A-GPS;  <strong>Гарантийный срок: </strong> 12 месяцев;                                         </p>
-                                    <p>
-                                        <a href="http://allo.ua/ru/products/mobile/samsung-galaxy-s4-i9500-deep-black.html" class="details" onclick="_gaq.push(['_trackEvent', 'Catalog', 'Мобильные телефоны и смартфоны | Телефоны', 'click-goods-catalog']);">
-                                            Подробнее →                                            </a>
-                                    </p>
+                                <div class="price-box" style="width: 95px;">
+                                    <!--<meta itemprop="pricecurrency" content="UAH">-->
+                                    <span class="regular-price" id="product-price-58858">
+                                        <span class="price">
+                                            <span class="sum" itemprop="price">#{product.price}</span> 
+                                            <span class="currency">грн.</span>
+                                        </span>
+                                    </span>
                                 </div>
 
+                                <span>
+
+                                    <c:choose>
+                                        <c:when test="#{user.isContainedInBasket(product)}">
+                                            <h:commandLink action="/cart?faces-redirect=true" 
+                                                           value="Вже в корзині" 
+                                                           class="btn-red button btn-cart red " 
+                                                           style="color: white; text-align: center; width: 100px;">
+                                            </h:commandLink>
+                                        </c:when>
+                                        <c:when test="#{not user.isContainedInBasket(product)}">
+                                            <h:commandLink action="#{user.addToCart}" 
+                                                           value="Купити" 
+                                                           class="btn-red button btn-cart red " 
+                                                           disabled="#{product.count == 0}"
+                                                           style="color: white; text-align: center;"
+                                                           >
+                                                <f:param value="#{product.product_id}" name="product_id" />
+                                                <f:ajax render=":cartGroup @form"/>
+                                            </h:commandLink>
+                                        </c:when>
+                                    </c:choose>
+
+                                </span>
+                                <c:if test="#{user.showAdminPanel}"><br/>
+                                    <br/>
+                                    <h:commandLink action="#{user.dropProduct(product)}"  
+                                                   value="Видалити" 
+                                                   class="button btn-cart red btn-red"
+                                                   style="color: white; width: 169px;">
+                                        <f:ajax render="@form" />
+                                    </h:commandLink>
+                                    <br/>
+                                    <br/>
+
+                                    <h:commandLink  value="Редагувати" 
+                                                    class="button btn-cart red updateClicker" 
+                                                    action="#{updateProductBean.setProduct(product)}"
+                                                    style="color: white; width: 169px; text-align: center;">
+                                        <f:ajax render=":formUpdateProduct" />
+                                    </h:commandLink>
+
+
+                                </c:if>
+                            </div>
+
+                            <div class="grid">
+                                <p class="in-stock"><!--<span class="icon"></span>-->
+                                    <c:choose>
+                                        <c:when test="#{product.count != 0}">
+                                            Товар є в наявності
+                                        </c:when>
+                                        <c:when test="#{product.count == 0}">
+                                            Товару не має в наявності
+                                        </c:when>
+                                    </c:choose>
+                                </p>
+
+
+                                <p class="sku">
+                                    код товара: #{product.product_id}                            </p>
+                            </div>
+
+                            <!-- COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                    
+
+
+                            <!-- /COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                        
+                            <!--hover block-->
+                            <div class="attributes por" style="">
+                                <div class="content">
+
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
             </c:forEach>
+                        </h:form>
         </ul>
             </ui:define>
         </ui:composition>

@@ -83,12 +83,9 @@ public class UserSession implements Serializable {
     }
     
     public String goSearch() {
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/GigaByte/catalog/search?q=" + searchText);
-        } catch (IOException ex) {
-            Logger.getLogger(UserSession.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "/GigaByte/catalog/search?=" + searchText;
+        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        
+        return searchText;
     }
     
     public void setCurrentCountProduct(int currentCountProduct) {

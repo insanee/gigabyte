@@ -102,9 +102,11 @@
                                         <h:inputText value="#{user.searchText}"/>
                                         <div style="display: none;" id="search_autocomplete" class="search-autocomplete"></div>
                                         <div class="button_container">
-                                            <h:commandLink class="button" action="#{user.goSearch()}">
+                                            <h:commandLink class="button" action="/search?faces-redirect=true">
                                                 <span><span>Знайти</span> </span>
+                                                <f:param name="awdawd" value="#{user.searchText}"/>
                                             </h:commandLink>
+                                            
                                             <!--<h:commandButton  value="Знайти" action="/GigaByte/catelog/se"/>-->
 
                                         </div>
@@ -208,7 +210,7 @@
                             <tr>
                                 <c:forEach items="#{user.categories}" var="categories">
                                     <td class="level0 nav-#{categories.category_id} level-top first " param="#{categories.name}"><div class="relative-wrapper" ><span class="menu-separator"></span><span class="right-separator"></span>
-                                            <h:outputLink value="/GigaByte/catalog/cid/#{categories.category_id}?product=all" class="level-top">
+                                            <h:outputLink value="/#{request.contextPath}/catalog/cid/#{categories.category_id}?product=all" class="level-top">
                                                 #{categories.name}
                                             </h:outputLink>
                                         </div>

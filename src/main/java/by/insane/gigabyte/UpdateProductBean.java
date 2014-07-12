@@ -164,12 +164,15 @@ public class UpdateProductBean implements Serializable{
     }
 
     public void setFeatures(String features) {
+        System.out.println("Features: " + features);
+        if(features == null || features.trim().equals(""))
+            return;
         this.features = features;
     }
     
     public void addFeatures() {
         String[] split = features.split("\n");
-        System.out.println("Features: ");
+        
         for (String string : split) {
             int indexOf = string.indexOf("=");
             if (indexOf == -1) {
@@ -181,6 +184,7 @@ public class UpdateProductBean implements Serializable{
             feature.setValue(string.substring(indexOf + 1, string.length()).replaceAll("\n", "").trim());
             Factory.getInstance().getFeaturesDAO().addFeatures(feature);
         }
+        features = "";
     }
     
     public List<Part> getFiles() {
@@ -212,17 +216,30 @@ public class UpdateProductBean implements Serializable{
                     by.insane.DAO.Factory.getInstance().getImagesDAO().addImage(image);
                     newFIleName = image.getImagesId() + submittedFileName.substring(submittedFileName.lastIndexOf("."), submittedFileName.length());
 
-                    File f = new File(pathForImage + newFIleName);
-                    if (!f.exists()) {
-                        f.createNewFile();
-                    }
+//                    File f = new File(pathForImage + newFIleName);
+//                    if (!f.exists()) {
+//                        f.createNewFile();
+//                    }
+                    
+                    File f = new File(newFIleName);
+                    
+//                    if (!f.exists()) {
+//                        f.createNewFile();
+//                    }
+//                    File file = new File("awd");
+//                    System.out.println("Absolutre path: " + file.getAbsoluteFile());
                     System.out.println("Path with file: " + f.getPath());
                     System.out.println("New file name: " + newFIleName);
+                    FTPLoader ftpUpload = new FTPLoader();
+                    String serverURL = ftpUpload.getServer();
                     image.setName(newFIleName);
+                    image.setPath("http://" + serverURL.substring(serverURL.indexOf(".") + 1, serverURL.length()) + "/");
                     by.insane.DAO.Factory.getInstance().getImagesDAO().updateImage(image);
 
                     fos = new FileOutputStream(f);
                     fos.write(results);
+                    
+                    ftpUpload.uploadToFtp(f, newFIleName);
                     fos.close();
                 } catch (IOException ex) {
                 } finally {

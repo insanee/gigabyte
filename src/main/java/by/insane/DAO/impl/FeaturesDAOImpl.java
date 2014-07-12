@@ -79,7 +79,7 @@ public class FeaturesDAOImpl implements FeaturesDAO {
 //        Query query = session.createQuery("delete Features where product_id = :productId");
 //        query.setParameter("productId", product.getProduct_id());
 //        query.executeUpdate();
-        session.createSQLQuery("DELETE FROM Features WHERE product_id = " + product.getProduct_id()).addEntity(Features.class);
+        session.createSQLQuery("DELETE FROM Features WHERE product_id = " + product.getProduct_id()).addEntity(Features.class).executeUpdate();
         session.getTransaction().commit();
         session.close();
     }
