@@ -152,88 +152,116 @@
                     <ul class="products-grid">
                         <c:forEach items="#{user.getNextPage(user.selectedCategoryId)}" var="product">
                             <li class="item" style="width: 200px;">
-                                <div class="item-inner" style="width: 175px; " >
+                        <div class="item-inner" style="width: 175px; " >
 
-                                    <a title="#{product.name}" class="product-image" style="width: 150px; height: 190px; margin-left: 0px;">
-
-
-                                        <!--<img src="{user.getAbsolutePathForImage(product)}" alt="" class="img" />-->
-                                        <h:graphicImage value="#{user.getAbsolutePathForImage(product)}" style="max-height: 180px; max-width: 180px;"/>
-                                    </a>
-                                    <h:link outcome="/product?faces-redirect=true" value="#{product.name}">
-                                        <f:param name="productId" value="#{product.product_id}"/>
-                                    </h:link>
-                                    <!--                        <p class="product-name-container">
-                                                                <a class="product-name" href="" title="{product.name}" >
-                                                                    {product.name}
-                                                                </a>
-                                                            </p>-->
-                                    <!-- REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->
-                                    <!-- /REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->                                                
+                            <a title="#{product.name}" class="product-image" style="width: 150px; height: 190px; margin-left: 0px;">
 
 
-                                    <div class="buy-box">
+                                <!--<img src="{user.getAbsolutePathForImage(product)}" alt="" class="img" />-->
+                                <h:graphicImage value="#{user.getAbsolutePathForImage(product)}" style="max-height: 180px; max-width: 180px; text-align: center;" />
+                            </a>
+                            <h:link outcome="/product?faces-redirect=true" value="#{product.name}">
+                                <f:param name="productId" value="#{product.product_id}"/>
+                            </h:link>
+                            <!--                        <p class="product-name-container">
+                                                        <a class="product-name" href="" title="{product.name}" >
+                                                            {product.name}
+                                                        </a>
+                                                    </p>-->
+                            <!-- REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->
+                            <!-- /REVIEW_PRODUCT_READ_d51839c1dbb3726de7874a14237c6803 -->                                                
+
+
+                            <div class="buy-box">
 
 
 
-                                        <div class="price-box" style="width: 95px;">
-                                            <!--<meta itemprop="pricecurrency" content="UAH">-->
-                                            <span class="regular-price" id="product-price-58858">
-                                                <span class="price">
-                                                    <span class="sum" itemprop="price">#{product.price}</span> 
-                                                    <span class="currency">грн.</span>
-                                                </span>
-                                            </span>
-                                        </div>
-
-                                        <span>
-
-                                            <h:commandLink action="#{user.addToCart}" value="Купити" class="btn-red button btn-cart red " >
-                                                <f:param value="#{product.product_id}" name="product_id" />
-                                                <f:ajax render=":cartGroup"/>
-                                            </h:commandLink>
+                                <div class="price-box" style="width: 95px;">
+                                    <!--<meta itemprop="pricecurrency" content="UAH">-->
+                                    <span class="regular-price" id="product-price-58858">
+                                        <span class="price">
+                                            <span class="sum" itemprop="price">#{product.price}</span> 
+                                            <span class="currency">грн.</span>
                                         </span>
-                                        <c:if test="#{user.showAdminPanel}"><br/>
-
-                                            <h:commandLink action="#{user.dropProduct(product)}"  value="Видалити" class="button btn-cart red btn-red">
-                                                <f:ajax render="@form" />
-                                            </h:commandLink>
-                                            <br/>
-
-                                            <!--                                            <h:commandLink  value="Редагувати" class="button btn-cart red btn-red">
-                                                                                            
-                                                                                        </h:commandLink>-->
-                                            <button id="buy-button-card-674248526" type="button" template="buy_catalog" title="Редагувати" class="button btn-cart red updateClicker" >
-                                                <span>
-                                                    <span>
-                                                        Редагувати                                    
-                                                    </span>
-                                                </span>
-                                            </button>
-                                        </c:if>
-                                    </div>
-
-                                    <div class="grid">
-                                        <p class="in-stock"><span class="icon"></span>Товар есть в наличии</p>
-
-
-                                        <p class="sku">
-                                            код товара: #{product.product_id}                            </p>
-                                    </div>
-
-                                    <!-- COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                    
-
-
-                                    <!-- /COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                        
-                                    <!--hover block-->
-                                    <div class="attributes por" style="">
-                                        <div class="content">
-
-
-                                        </div>
-                                    </div>
+                                    </span>
                                 </div>
-                            </li>
+
+                                <span>
+
+                                    <c:choose>
+                                        <c:when test="#{user.isContainedInBasket(product)}">
+                                            <h:commandLink action="/cart?faces-redirect=true" 
+                                                           value="Вже в корзині" 
+                                                           class="btn-red button btn-cart red " 
+                                                           style="color: white; text-align: center; width: 100px;">
+                                            </h:commandLink>
+                                        </c:when>
+                                        <c:when test="#{not user.isContainedInBasket(product)}">
+                                            <h:commandLink action="#{user.addToCart}" 
+                                                           value="Купити" 
+                                                           class="btn-red button btn-cart red " 
+                                                           disabled="#{product.count == 0}"
+                                                           style="color: white; text-align: center;"
+                                                           >
+                                                <f:param value="#{product.product_id}" name="product_id" />
+                                                <f:ajax render=":cartGroup @form"/>
+                                            </h:commandLink>
+                                        </c:when>
+                                    </c:choose>
+
+                                </span>
+                                <c:if test="#{user.showAdminPanel}"><br/>
+                                    <br/>
+                                    <h:commandLink action="#{user.dropProduct(product)}"  
+                                                   value="Видалити" 
+                                                   class="button btn-cart red btn-red"
+                                                   style="color: white; width: 169px;">
+                                        <f:ajax render="@form" />
+                                    </h:commandLink>
+                                    <br/>
+                                    <br/>
+
+                                    <h:commandLink  value="Редагувати" 
+                                                    class="button btn-cart red updateClicker" 
+                                                    action="#{updateProductBean.setProduct(product)}"
+                                                    style="color: white; width: 169px; text-align: center;">
+                                        <f:ajax render=":formUpdateProduct" />
+                                    </h:commandLink>
+
+
+                                </c:if>
+                            </div>
+
+                            <div class="grid">
+                                <p class="in-stock"><!--<span class="icon"></span>-->
+                                    <c:choose>
+                                        <c:when test="#{product.count != 0}">
+                                            Товар є в наявності
+                                        </c:when>
+                                        <c:when test="#{product.count == 0}">
+                                            Товару не має в наявності
+                                        </c:when>
+                                    </c:choose>
+                                </p>
+
+
+                                <p class="sku">
+                                    код товара: #{product.product_id}                            </p>
+                            </div>
+
+                            <!-- COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                    
+
+
+                            <!-- /COMPARE_LISTING_LINK_8d36423a57433b5abd1aa4df9bc4fe14 -->                        
+                            <!--hover block-->
+                            <div class="attributes por" style="">
+                                <div class="content">
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                         </c:forEach>
                     </ul>
                     <div class="more-goods">
