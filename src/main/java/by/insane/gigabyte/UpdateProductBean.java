@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.faces.bean.*;
 import javax.faces.model.SelectItem;
@@ -31,7 +32,7 @@ import javax.servlet.http.Part;
  */
 @ManagedBean
 @ViewScoped
-public class UpdateProductBean implements Serializable{
+public class UpdateProductBean implements Serializable {
 
     private Product product = new Product();
     private String features;
@@ -43,40 +44,71 @@ public class UpdateProductBean implements Serializable{
     private List<Part> files = new ArrayList<>(COUNT_FILES);
     private String pathForImage = "E:/GigaByte/web/resources/images/";
 
-    public UpdateProductBean(){
+    public UpdateProductBean() {
         for (Category c : by.insane.DAO.Factory.getInstance().getCategoryDAO().getMainCategories()) {
             categoriesID.add(0);
+        }
+        for (Integer id : categoriesID) {
+            System.out.println("Categoriess1: " + id);
         }
         for (int i = 0; i < COUNT_FILES; i++) {
             Part part = null;
             files.add(part);
         }
     }
-    
-    public void setCategoryID(int i) {
-        categoriesID.add(i);
+
+    public void setCategoryID(int j) {
+        System.out.println("Set cat id: " + j);
+        for (Integer id : categoriesID) {
+            System.out.println("Categoriess4: " + id);
+        }
+        int temp = categoriesID.iterator().next();
+        boolean flag = false;
+        for (int i = 1; i < categoriesID.size(); i++) {
+            if(temp != categoriesID.get(i)){
+                flag = true;
+                break;
+            }
+
+        }
+        if(!flag){
+            for(int f = 0; f < categoriesID.size(); f++){
+                        categoriesID.set(f, 0);
+                    }
+        }
+        for (Integer id : categoriesID) {
+            System.out.println("Categoriess3: " + id);
+        }
+        categoriesID.add(j);
+        for (Integer id : categoriesID) {
+            System.out.println("Categoriess5: " + id);
+        }
     }
 
     public int getCategoryID() {
         i++;
-        if(i >= categoriesID.size()){
+        if (i >= categoriesID.size()) {
             i--;
         }
         return categoriesID.get(i);
 
     }
-    
-    
-    public String updateProduct(){
+
+    public String updateProduct() {
         System.out.println("Main category id: " + mainCategoryId + ", category id: " + categoryId);
 //        product.setCategory(DAO.Factory.getInstance().getCategoryDAO().getCategoryById(categoryId));
 //        DAO.Factory.getInstance().getProductDAO().addProduct(product);
         Category categoryById = by.insane.DAO.Factory.getInstance().getCategoryDAO().getCategoryById(mainCategoryId);
+        Set<Category> categories = categoryById.getCategories();
+        for (Integer id : categoriesID) {
+            System.out.println("Categoriess: " + id);
+        }
+
         label:
         for (Integer id : categoriesID) {
-            Set<Category> categories = categoryById.getCategories();
+
             for (Category category : categories) {
-                if (category.getCategory_id() == id) {
+                if (category.getCategory_id() == id && category.getParentCategory().getCategory_id() == mainCategoryId) {
                     System.out.println("Search category is: "
                             + by.insane.DAO.Factory.getInstance().getCategoryDAO().getCategoryById(id).getName());
                     product.setCategory(by.insane.DAO.Factory.getInstance().getCategoryDAO().getCategoryById(id));
@@ -95,28 +127,6 @@ public class UpdateProductBean implements Serializable{
         uploadListener();
         return "/index?faces-redirect=true";
     }
-    
-    public List<SelectItem> getSelectedItemMainCategory(){
-        Collection<Category> mainCategories = by.insane.DAO.Factory.getInstance().getCategoryDAO().getMainCategories();
-        List<SelectItem> list = new LinkedList<>();
-        for (Category category : mainCategories) {
-             SelectItem selectItem = new SelectItem(category.getCategory_id(),category.getName());
-             list.add(selectItem);
-        }
-        
-        return list;
-    }
-
-    
-    public List<SelectItem> getSelectedItemSubcategories(){
-        Category category = by.insane.DAO.Factory.getInstance().getCategoryDAO().getCategoryById(mainCategoryId);
-        List<SelectItem> list = new LinkedList<>();
-        for (Category subcategory : category.getCategories()) {
-             SelectItem selectItem = new SelectItem(subcategory.getCategory_id(),subcategory.getName());
-             list.add(selectItem);
-        }
-        return list;
-    }
 
     public int getCategoryId() {
         return categoryId;
@@ -132,26 +142,35 @@ public class UpdateProductBean implements Serializable{
     }
 
     public int getMainCategoryId() {
-        
+
         return mainCategoryId;
     }
 
     public void setProduct(Product product) {
-        if(product == null){
+        if (product == null) {
             System.out.println("Set product is null!");
             return;
         }
+        System.out.println("Set product");
         this.product = product;
         features = "";
         mainCategoryId = product.getCategory().getParentCategory().getCategory_id();
-        for(Features feature : product.getFeatures()){
+        for (Features feature : product.getFeatures()) {
             features += feature.getName() + " = " + feature.getValue() + "\n";
         }
         i = -1;
         for (int j = 0; j < categoriesID.size(); j++) {
             categoriesID.set(j, product.getCategory().getCategory_id());
         }
-        
+//        categoriesID.clear();
+//        categoryId = product.getCategory().getCategory_id();
+//        for (Category c : by.insane.DAO.Factory.getInstance().getCategoryDAO().getMainCategories()) {
+//            categoriesID.add(0);
+//        }
+        for (Integer id : categoriesID) {
+            System.out.println("Categoriess2: " + id);
+        }
+        System.out.println("New category id is: " + categoryId);
     }
 
     public void setMainCategoryId(int mainCategoryId) {
@@ -165,14 +184,15 @@ public class UpdateProductBean implements Serializable{
 
     public void setFeatures(String features) {
         System.out.println("Features: " + features);
-        if(features == null || features.trim().equals(""))
+        if (features == null || features.trim().equals("")) {
             return;
+        }
         this.features = features;
     }
-    
+
     public void addFeatures() {
         String[] split = features.split("\n");
-        
+
         for (String string : split) {
             int indexOf = string.indexOf("=");
             if (indexOf == -1) {
@@ -186,7 +206,7 @@ public class UpdateProductBean implements Serializable{
         }
         features = "";
     }
-    
+
     public List<Part> getFiles() {
         return files;
     }
@@ -194,7 +214,7 @@ public class UpdateProductBean implements Serializable{
     public void setFiles(List<Part> files) {
         this.files = files;
     }
-    
+
     public void uploadListener() {
         for (Part part : files) {
             if (part != null) {
@@ -220,9 +240,8 @@ public class UpdateProductBean implements Serializable{
 //                    if (!f.exists()) {
 //                        f.createNewFile();
 //                    }
-                    
                     File f = new File(newFIleName);
-                    
+
 //                    if (!f.exists()) {
 //                        f.createNewFile();
 //                    }
@@ -238,7 +257,7 @@ public class UpdateProductBean implements Serializable{
 
                     fos = new FileOutputStream(f);
                     fos.write(results);
-                    
+
                     ftpUpload.uploadToFtp(f, newFIleName);
                     fos.close();
                 } catch (IOException ex) {
@@ -254,5 +273,26 @@ public class UpdateProductBean implements Serializable{
                 System.out.println("Part is null!");
             }
         }
+    }
+
+    public List<SelectItem> getSelectedItemMainCategory() {
+        Collection<Category> mainCategories = by.insane.DAO.Factory.getInstance().getCategoryDAO().getMainCategories();
+        List<SelectItem> list = new LinkedList<>();
+        for (Category category : mainCategories) {
+            SelectItem selectItem = new SelectItem(category.getCategory_id(), category.getName());
+            list.add(selectItem);
+        }
+
+        return list;
+    }
+
+    public List<SelectItem> getSelectedItemSubcategories() {
+        Category category = by.insane.DAO.Factory.getInstance().getCategoryDAO().getCategoryById(mainCategoryId);
+        List<SelectItem> list = new LinkedList<>();
+        for (Category subcategory : category.getCategories()) {
+            SelectItem selectItem = new SelectItem(subcategory.getCategory_id(), subcategory.getName());
+            list.add(selectItem);
+        }
+        return list;
     }
 }
