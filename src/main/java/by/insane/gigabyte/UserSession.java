@@ -52,7 +52,7 @@ import javax.servlet.http.*;
 @Named("user")
 @SessionScoped
 public class UserSession implements Serializable {
-    
+
     private String password;
     private String login;
     private Account account = new Account();
@@ -62,6 +62,7 @@ public class UserSession implements Serializable {
     private String role = "guest";
     private List<Category> categories;
     private Product product;
+    private Product currentProduct;
     private String selectedCategory;
     private DataModel productsModel;
     private String selectedCategoryId;
@@ -73,51 +74,78 @@ public class UserSession implements Serializable {
     private String searchText;
     private List<ItemCart> itemCartGuestUser = new LinkedList<>();
     private boolean registerBeforeOrder = false;
-    
+
+    public void setCurrentProduct(Product product) {
+//        if (product != null) {
+//            currentProduct = product;
+//            System.out.println("Current product is not null");
+//        } else {
+//            System.out.println("Current product is null");
+//        }
+    }
+
+    public Product getCurrentProduct() {
+        System.out.println("Current product is get!");
+        return currentProduct;
+    }
+
+    public Set<Images> getImagesForCurrentProduct() {
+        System.out.println("Product id isss " + productId);
+//        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//        Product product = (Product)request.getAttribute("currentProduct");
+//        
+//        if(product == null){
+//            System.out.println("Attribute product null!");
+//        }else{
+//            System.out.println("Attribute product not null!");
+//        }
+        return product.getImages();
+    }
+
     public String getSearchText() {
         return searchText;
     }
-    
+
     public void setSearchText(String searchText) {
         this.searchText = searchText;
     }
-    
+
     public String goSearch() {
-        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
         return searchText;
     }
-    
+
     public void setCurrentCountProduct(int currentCountProduct) {
         this.currentCountProduct = currentCountProduct;
     }
-    
+
     public int getCurrentCountProduct() {
         return currentCountProduct;
     }
-    
+
     public int getCountProductInPage() {
         return countProductInPage;
     }
-    
+
     public void setComment(Comments comment) {
         if (comment != null) {
             this.comment = comment;
         }
     }
-    
+
     public Comments getComment() {
         return comment;
     }
-    
+
     public String getButton_id() {
         return "id" + (button_id++);
     }
-    
+
     public String getSelectedCategory() {
         return selectedCategory;
     }
-    
+
     public void setSelectedCategory(String selectedCategory) {
         if (selectedCategory != null && !selectedCategory.trim().equals("")) {
             try {
@@ -125,24 +153,24 @@ public class UserSession implements Serializable {
                 this.selectedCategory = selectedCategory;
             } catch (Exception e) {
             }
-            
+
         }
     }
-    
+
     public Collection<Orders> getOrders() {
         return by.insane.DAO.Factory.getInstance().getOrdersDAO().getOrdersByAccount(account);
     }
-    
+
     public String check() {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             HttpSession session = request.getSession(false);
             Statement statement = pool.getStatement();
-            
+
             ResultSet result = statement.executeQuery("SELECT account_id, login, role, password FROM account");
             System.out.println("login: " + login + "  passowrd: " + password);
             while (result.next()) {
-                
+
                 if (result.getString("login").equals(login) && result.getString("password").equals(password)) {
                     if (session != null) {
                         session.setAttribute("authentication", "true");
@@ -152,47 +180,47 @@ public class UserSession implements Serializable {
                         prevAccount = account;
                         role = result.getString("role");
                         cart = by.insane.DAO.Factory.getInstance().getCartDAO().getCartByAccount(account);
-                        
+
                     }
                 }
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(UserSession.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "/index?faces-redirect=true";
     }
-    
+
     public UserSession() {
         pool = DataBaseConnection.getInstance();
         account.setRole("guest");
         account.setAccount_id(-1);
         categories = (List<Category>) by.insane.DAO.Factory.getInstance().getCategoryDAO().getMainCategories();
         System.out.println("Size: " + categories.size());
-        
+
     }
-    
+
     public UserSession(String password, String login) {
         this.password = password;
         this.login = login;
     }
-    
+
     public String getPassword() {
         return password;
     }
-    
+
     public String getLogin() {
         return login;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public void setLogin(String login) {
         this.login = login;
     }
-    
+
     public boolean getAuthentication() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpSession session = request.getSession(false);
@@ -203,7 +231,7 @@ public class UserSession implements Serializable {
         }
         return false;
     }
-    
+
     public void logout() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpSession session = request.getSession(false);
@@ -219,7 +247,7 @@ public class UserSession implements Serializable {
         cart.getItemCart().clear();
         indexRedirect();
     }
-    
+
     public String register() {
         System.out.println("Register_________________________________________________________________");
         account.setRole("user");
@@ -235,15 +263,15 @@ public class UserSession implements Serializable {
             password = account.getPassword();
             order();
             check();
-            
+
         }
         return "/index?faces-redirect=true";
     }
-    
+
     public Account getAccount() {
         return account;
     }
-    
+
     public void accountRedirect() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("/GigaByte/faces/user/account.xhtml");
@@ -251,7 +279,7 @@ public class UserSession implements Serializable {
             e.printStackTrace();
         }
     }
-    
+
     public void categoryRedirect() {
 //        try {
 //            FacesContext.getCurrentInstance().getExternalContext().redirect("/GigaByte/faces/category");
@@ -264,7 +292,7 @@ public class UserSession implements Serializable {
                     = (HttpServletRequest) context.getExternalContext().getRequest();
             HttpServletResponse response
                     = (HttpServletResponse) context.getExternalContext().getResponse();
-            
+
             System.out.println("kadn anfkan ka nk           " + request.getParameter("username"));
             //response.
             //dispatcher.forward(request, response);
@@ -275,7 +303,7 @@ public class UserSession implements Serializable {
             context.responseComplete();
         }
     }
-    
+
     public void indexRedirect() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("/GigaByte/faces/index.xhtml");
@@ -283,56 +311,57 @@ public class UserSession implements Serializable {
             Logger.getLogger(UserSession.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public Map<String, String> getMapUser() {
         Account account = by.insane.DAO.Factory.getInstance().getAccountDAO().getAccountById(id);
         return account.toMap();
     }
-    
+
     public String getClassForAdminPanel() {
         return role.equals("admin") ? "show" : "hide";
     }
-    
+
     public String getRole() {
         return role;
     }
-    
+
     public boolean isShowAdminPanel() {
         return "admin".equals(role);
     }
-    
+
     public String getLastRole(String role) {
         return "admin".equals(role) ? "user" : "admin";
     }
-    
+
     public List<Category> getCategories() {
         return categories;
     }
-    
+
     public Product getProductById(String id) {
         if (id == null || id.trim().equals("")) {
             return null;
         }
         product = by.insane.DAO.Factory.getInstance().getProductDAO().getProductById(Integer.parseInt(id));
+        currentProduct = product;
         return product;
     }
-    
+
     public String[] getNamesCategories() {
         String[] tmp = new String[categories.size()];
-        
+
         for (int i = 0; i < tmp.length; i++) {
             tmp[i] = ((Category) categories.toArray()[i]).getName();
         }
         return tmp;
     }
-    
+
     public String[] getNamesSubcategories() {
         if (selected == null || "".equals(selected.trim())) {
             selected = "OS";
         }
-        
+
         String[] tmpArr = null;
-        
+
         List<Category> categories = getCategories();
         for (int i = 0; i < getNamesCategories().length; i++) {
             if (categories.get(i).getName().equals(selected)) {
@@ -343,18 +372,18 @@ public class UserSession implements Serializable {
                 while (it.hasNext()) {
                     tmpArr[j++] = it.next().getName();
                 }
-                
+
             }
         }
-        
+
         return tmpArr;
-        
+
     }
-    
+
     public String getSelected() {
         return selected;
     }
-    
+
     public void setSelected(String selected) {
         System.out.println("Selected__________________ " + selected);
         if (selected == null || selected.equals("")) {
@@ -362,15 +391,15 @@ public class UserSession implements Serializable {
         }
         this.selected = selected;
     }
-    
+
     public String getResult() {
         return result;
     }
     private String selected;
     private String result;
-    
+
     synchronized public List<Product> getAllProduct(String id) {
-        
+
         if (id == null || id.trim().equals("")) {
             return null;
         }
@@ -399,34 +428,34 @@ public class UserSession implements Serializable {
         Collections.sort(list);
         return list;
     }
-    
+
     synchronized public List<Product> getNextPage(String id) {
         List<Product> allProduct = getAllProduct(id);
         if (allProduct == null) {
             return null;
         }
-        
+
         if (currentCountProduct >= allProduct.size()) {
             return allProduct;
         }
-        
+
         return allProduct.subList(0, currentCountProduct);
     }
-    
+
     public void nextPageListener() {
         currentCountProduct += countProductInPage;
     }
-    
+
     public Product getProductByIdInRequestParameter() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String param = request.getParameter("productId");
-        String att = (String)request.getAttribute("productId");
+        String att = (String) request.getAttribute("productId");
         Map<String, String[]> parameterMap = request.getParameterMap();
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
             String string = entry.getKey();
             String[] strings = entry.getValue();
             System.out.println("Param: " + string);
-            
+
         }
         System.out.println("Attribute: " + att);
         if (param == null || param.trim().equals("")) {
@@ -434,7 +463,7 @@ public class UserSession implements Serializable {
         }
         return by.insane.DAO.Factory.getInstance().getProductDAO().getProductById(Integer.parseInt(param));
     }
-    
+
     synchronized public Collection<Account> getAllAccounts() {
         Collection<Account> allAccounts = by.insane.DAO.Factory.getInstance().getAccountDAO().getAllAccounts();
         for (Account account1 : allAccounts) {
@@ -442,7 +471,7 @@ public class UserSession implements Serializable {
         }
         return allAccounts;
     }
-    
+
     synchronized public String dropProduct(Product product) throws IOException {
 //        DAO.Factory.getInstance().getCommentsDAO().getCommentsByProductId(Integer.parseInt(product_id));
 //        DAO.Factory.getInstance().getCartDAO().deleteProductFromCartsById(product.getProduct_id());
@@ -453,10 +482,10 @@ public class UserSession implements Serializable {
             ftp.dropImages(product);
             by.insane.DAO.Factory.getInstance().getProductDAO().deleteProduct(product);
         }
-        
+
         return "/index?faces-redirect=true";
     }
-    
+
     synchronized public String getSelectedCategoryId() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         System.out.println("Params: " + request.getParameter("categoryId"));
@@ -465,7 +494,7 @@ public class UserSession implements Serializable {
         }
         return selectedCategoryId;
     }
-    
+
     public String redirectCart() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("/GigaByte/faces/cart.xhtml");
@@ -474,41 +503,41 @@ public class UserSession implements Serializable {
         }
         return "/cart";
     }
-    
+
     public void addComment() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String product_id = request.getParameter("productId");
-        
+
         if (product_id == null || product_id.trim().equals("")) {
             return;
         }
-        
+
         comment.setAccount(account);
         comment.setProduct(by.insane.DAO.Factory.getInstance().getProductDAO().getProductById(Integer.parseInt(product_id)));
         Date date = new Date();
         comment.setDate(date);
         by.insane.DAO.Factory.getInstance().getCommentsDAO().addComment(comment);
         comment.setDescription("");
-        
+
     }
-    
+
     public static String nl2br(String string) {
         return (string != null) ? string.replace("\n", "<br />") : null;
     }
-    
+
     public Collection<Comments> getCommentsByProductId() {
-        
+
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         if (request.getParameter("productId") == null) {
             return null;
         }
         return by.insane.DAO.Factory.getInstance().getCommentsDAO().getCommentsByProductId(Integer.parseInt(request.getParameter("productId")));
     }
-    
+
     public Cart getCart() {
         return cart;
     }
-    
+
     public void addToCart() {
         String product_id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("product_id");
         if (product_id == null || product_id.trim().equals("")) {
@@ -537,16 +566,16 @@ public class UserSession implements Serializable {
         }
         System.out.println("Aded to cart!");
     }
-    
+
     public void countProductInCartListener(Cart cart) {
         for (int i = 0; i < 10; i++) {
 //            System.out.println("awdawdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa       " + cart.getProduct().getName() + " " + cart.getCount());
         }
 //        DAO.Factory.getInstance().getCartDAO().updateCart(cart);
     }
-    
+
     public String order() {
-        
+
         if (!getAuthentication()) {
             System.out.println("Authentication awd");
             registerBeforeOrder = true;
@@ -555,7 +584,7 @@ public class UserSession implements Serializable {
             } catch (IOException ex) {
                 Logger.getLogger(UserSession.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
         Orders order = new Orders();
         Set<ItemOrders> items = new HashSet<>(0);
@@ -570,7 +599,7 @@ public class UserSession implements Serializable {
             item.setOrder(order);
             by.insane.DAO.Factory.getInstance().getItemOrdersDAO().addItemOrders(item);
         }
-        
+
         for (ItemCart itemOrders : cart.getItemCart()) {
             by.insane.DAO.Factory.getInstance().getItemCartDAO().deleteItemCart(itemOrders);
         }
@@ -582,7 +611,7 @@ public class UserSession implements Serializable {
 //        }
         return "/index?faces-redirect=true";
     }
-    
+
     public void deleteRowFromCart(ItemCart itemCart) {
         if (account != null && account.getAccount_id() != -1) {
             by.insane.DAO.Factory.getInstance().getItemCartDAO().deleteItemCart(itemCart);
@@ -590,14 +619,14 @@ public class UserSession implements Serializable {
         if (cart != null) {
             cart.getItemCart().remove(itemCart);
         }
-        
+
     }
-    
+
     public void dropUser(Account account) {
 //        by.insane.DAO.Factory.getInstance().getCartDAO().deleteCartByAccount(account);
         by.insane.DAO.Factory.getInstance().getAccountDAO().deleteAccount(account);
     }
-    
+
     public void updateUsersRole(Collection<Account> account) {
         for (Account account1 : account) {
             System.out.println("awdawdawd       " + account1.getFname() + " role " + account1.getRole());
@@ -607,11 +636,11 @@ public class UserSession implements Serializable {
             String s1 = entry.getKey();
             String s2 = entry.getValue();
             System.out.println("key " + s1 + "  value " + s2);
-            
+
         }
-        
+
     }
-    
+
     public void dropComment(Comments comment) {
         System.out.println("Comment dropped! ");
         by.insane.DAO.Factory.getInstance().getCommentsDAO().deleteComment(comment);
@@ -619,7 +648,7 @@ public class UserSession implements Serializable {
 
     //start update account
     private List<MyEntry<String, String>> l;
-    
+
     public void updateAccountInfo(MyEntry<String, String> item) {
         System.out.println("saved " + item.getKey() + " " + item.getNewValue());
         switch (item.getKey()) {
@@ -642,31 +671,31 @@ public class UserSession implements Serializable {
         item.setEditable(false);
         save();
     }
-    
+
     public void save() {
         System.out.println(" dddd " + prevAccount.getAddress());
         account = prevAccount;
         by.insane.DAO.Factory.getInstance().getAccountDAO().updateAccount(account);
         l = account.toArrayList();
-        
+
     }
-    
+
     public void cancel(MyEntry<String, String> item) {
         item.setEditable(false);
         System.out.println(item.getKey() + " editable " + item.isEditable() + " awd");
     }
-    
+
     public void listener(MyEntry<String, String> m) {
-        
+
         for (MyEntry<String, String> next : l) {
             next.setEditable(false);
         }
         m.setEditable(true);
         System.out.println(m.getKey() + " editable " + m.isEditable());
     }
-    
+
     public List<MyEntry<String, String>> getArrayListUser() {
-        
+
         return l;
     }
 
@@ -674,7 +703,7 @@ public class UserSession implements Serializable {
     public String getCurrentPage(String path) {
         return (path == null) ? "unknown" : path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
     }
-    
+
     public boolean isShowLeftBanners(String path) {
         String currentPage = getCurrentPage(path);
         switch (currentPage) {
@@ -687,33 +716,37 @@ public class UserSession implements Serializable {
         }
         return true;
     }
-    
+
     public Orders getOrderById() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Integer orderId = Integer.valueOf(request.getParameter("view"));
         System.out.println("Integer: " + orderId);
-        
+
         if (orderId != null) {
             return by.insane.DAO.Factory.getInstance().getOrdersDAO().getOrderById(orderId);
         }
-        
+
         return null;
     }
-    
+
     public Collection<Product> getAllProduct() {
         return by.insane.DAO.Factory.getInstance().getProductDAO().getAllProducts();
     }
-    
+
     public Collection<Product> getFindsProduct() {
         return by.insane.DAO.Factory.getInstance().getProductDAO().getProductsLikeName(searchText);
     }
-    
+
     public String getAbsolutePathForImage(Product product) {
-        if (product == null) {
+        if (product == null && this.product == null) {
             return null;
         }
-        Set<Images> images = product.getImages();
-        
+        Set<Images> images = null;
+        if(product == null)
+        images = this.product.getImages();
+        else
+            images = product.getImages();
+
         if (images == null) {
             return "resources/images/no-image-available.jpg";
         }
@@ -723,22 +756,22 @@ public class UserSession implements Serializable {
         } else {
             return "resources/images/no-image-available.jpg";
         }
-        
+
     }
-    
+
     public Collection<Orders> getAllOrders() {
         return by.insane.DAO.Factory.getInstance().getOrdersDAO().getAllOrders();
     }
-    
+
     public void deleteOrder(Orders order) {
         for (ItemOrders item : order.getItemOrders()) {
             by.insane.DAO.Factory.getInstance().getItemOrdersDAO().deleteItemOrders(item);
         }
         by.insane.DAO.Factory.getInstance().getOrdersDAO().deleteOrder(order);
     }
-    
+
     public Set<Features> getSubFeatures(Product product) {
-        
+
         if (product == null) {
             return null;
         }
@@ -749,7 +782,7 @@ public class UserSession implements Serializable {
         }
         return new TreeSet<>(set.subList(0, n));
     }
-    
+
     public boolean isContainedInBasket(Product product) {
         for (ItemCart item : cart.getItemCart()) {
             if (item.getProduct().equals(product)) {
@@ -758,20 +791,18 @@ public class UserSession implements Serializable {
         }
         return false;
     }
-    
-    public void dropImage(Images image) {
+
+    public void dropImage(Images image) throws IOException {
         if (image == null) {
             System.out.println("Drop image is call1!");
             return;
         }
-        File file = new File("E:/GigaByte/web/resources/images/" + image.getName());
-        if (file.exists()) {
-            file.delete();
-        }
+        FTPLoader loader = new FTPLoader();
+        loader.dropImage(image);
         by.insane.DAO.Factory.getInstance().getImagesDAO().deleteImage(image);
         System.out.println("Drop image is call!");
     }
-    
+
     public Collection<Images> getImagesByProduct() {
 //        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 //        String productId = request.getParameter("productId");
@@ -787,8 +818,9 @@ public class UserSession implements Serializable {
     private int productId;
 
     public void setProductId(int awd) {
-        
-        productId = awd;
+        if (awd > 0) {
+            productId = awd;
+        }
         System.out.println("ProductIDIS: " + productId);
     }
 
