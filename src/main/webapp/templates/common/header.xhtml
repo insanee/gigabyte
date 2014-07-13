@@ -67,7 +67,13 @@
                                     <li> <a href="">Гарантія</a> </li>
                                     <li> <a href="">Кредит</a> </li>
                                     <li> <a href="">Допомога</a> </li>
-                                    <li> <a href="/GigaByte/contact-us">Контакти</a> </li>
+                                    <li> 
+                                        <h:form>
+                                            <h:commandLink action="/connection-with-the-administration?faces-redirect=true"
+                                                           value="Контакти" />
+                                                
+                                        </h:form>
+                                    </li>
                                 </ul></div>
 
                             <div id="phone" class="phone">
@@ -168,17 +174,22 @@
 
                                         <div id="topCartTitle" class="block-title no-items">
                                             <span class="icon_cart_big"></span>
+                                            
                                             <span class="cart-title" id="cartHeader">
+                                                
                                                 <h:panelGroup id="cartGroup">
+                                                    <h:form>
                                                     <c:if test="#{empty user.getCart().itemCart or user.getCart().itemCart.size() == 0 }">
                                                         Ваша корзина порожня
                                                     </c:if>
                                                     <c:if test="#{ not empty user.getCart() and user.getCart().itemCart.size() != 0}">
-                                                        <h:form>
+                                                        
                                                             <h:commandLink value="У корзині #{user.getCart().itemCart.size()} товарів" action="/cart?faces-redirect=true"/>
-                                                        </h:form>
+                                                        
                                                     </c:if>
+                                                        </h:form>
                                                 </h:panelGroup>
+                                                    
                                             </span>
                                         </div>
                                         <div id="bottomCartTitle" class="block-title-bottom no-items"></div>
