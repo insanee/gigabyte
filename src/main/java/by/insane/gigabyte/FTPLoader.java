@@ -41,8 +41,6 @@ public class FTPLoader {
         password = "111111";
     }
 
-    
-
     public boolean uploadToFtp(File file, String fileName) throws IOException {
         FTPClient ftpClient = new FTPClient();
         boolean done = false;
@@ -52,7 +50,6 @@ public class FTPLoader {
             ftpClient.login(user, password);
             ftpClient.enterLocalPassiveMode();
 
-            
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             InputStream inputStream = new FileInputStream(file);
             done = ftpClient.storeFile(fileName, inputStream);
@@ -72,8 +69,8 @@ public class FTPLoader {
     public void uploadToFtp() {
 
     }
-    
-    public void dropImages(Product product) throws IOException{
+
+    public void dropImages(Product product) throws IOException {
         FTPClient ftpClient = new FTPClient();
         try {
 
@@ -82,14 +79,33 @@ public class FTPLoader {
             ftpClient.enterLocalPassiveMode();
 
             for (FTPFile file : ftpClient.listFiles()) {
-                for(Images image : product.getImages()){
-                    if(file.getName().equals(image.getName())){
+                for (Images image : product.getImages()) {
+                    if (file.getName().equals(image.getName())) {
                         ftpClient.deleteFile(file.getName());
                         break;
                     }
                 }
             }
-            
+
+        } finally {
+
+            if (ftpClient.isConnected()) {
+                ftpClient.logout();
+                ftpClient.disconnect();
+            }
+
+        }
+    }
+
+    public void dropImage(Images image) throws IOException {
+        FTPClient ftpClient = new FTPClient();
+        try {
+
+            ftpClient.connect(server, port);
+            ftpClient.login(user, password);
+            ftpClient.enterLocalPassiveMode();
+
+            ftpClient.deleteFile(image.getName());
 
         } finally {
 
