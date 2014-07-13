@@ -798,8 +798,9 @@ public class UserSession implements Serializable {
             return;
         }
         FTPLoader loader = new FTPLoader();
-        loader.dropImage(image);
+        loader.dropImage(image); 
         by.insane.DAO.Factory.getInstance().getImagesDAO().deleteImage(image);
+        product = by.insane.DAO.Factory.getInstance().getProductDAO().getProductById(product.getProduct_id());
         System.out.println("Drop image is call!");
     }
 
