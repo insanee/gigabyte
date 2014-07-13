@@ -42,6 +42,13 @@ public class DataBaseConnection implements Serializable{
         }
         return instance;
     }
+    
+    @Override
+    protected void  finalize() throws Throwable{
+        super.finalize();
+        statement.close();
+        connection.close();
+    }
 
     public String getUrl() {
         return url;
