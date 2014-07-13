@@ -12,12 +12,12 @@
                         xmlns:f="http://xmlns.jcp.org/jsf/core"
                         xmlns:fn="http://java.sun.com/jsp/jstl/functions">
             <ui:define name="content">
-                <c:set var="product"  value="#{user.getProductById(request.getParameter('productId'))}" />
+                <c:set var="product"  value="#{user.getProductById(request.getParameter('productId'))}" scope="session"/>
                 <c:set var="productId" value="#{product.product_id}" />
-                #{request.setAttribute('productId', product.name)}
-Product #{product}<br/>
-#{updateProductBean.setProduct(product)}
-#{user.setProductId(product.product_id)}
+                
+                #{updateProductBean.setProduct(product)}
+                #{user.setProductId(productId)}
+                
                 <script>
 
                     function setZoomImage(awd) {
@@ -140,25 +140,26 @@ Product #{product}<br/>
                                             <p class="no-display" samsung="" galaxy="" trend="" s7390="" midnight="" black=""></p>
                                             <div class="product-img-box">
 
-
+                                                <h:panelGroup id="groupImages">
                                                 <div class="product-image product-image-zoom " style="text-align: center;" id="border-image-zoom">
-                                                    <h:graphicImage value="#{user.getAbsolutePathForImage(product)}" id="image" style="max-width: 440px; max-height: 295px;"/>
+                                                    <h:graphicImage value="#{user.getAbsolutePathForImage(null)}" id="image" style="max-width: 440px; max-height: 295px;"/>
 
                                                 </div>
 
                                                 <div class="more-views">
                                                     <ul class="product-thumbnails">
 
-                                                        <c:forEach  items="#{product.images}" var="image">
+                                                        <c:forEach  items="#{user.getImagesForCurrentProduct()}" var="image">
                                                             <li class="thumb-active" >
                                                                 <div style="position: relative;">
                                                                     <h:graphicImage value="#{image.path.concat(image.name)}" height="50" onclick="setZoomImage(this)">
 
                                                                     </h:graphicImage>
-                                                                    <!--<h:commandLink class="box-modal_close " value="X" action="{user.dropImage(image)}">-->
-                                                                        <!--<div  >X</div>-->
-                                                                        <!--<f:ajax render="@form" />-->
-                                                                    <!--</h:commandLink>-->
+                                                                    
+                                                                    <h:commandLink class="box-modal_close " value="X" action="#{user.dropImage(image)}" style="color: red;" rendered="#{user.showAdminPanel}">
+                                                                        
+                                                                        <f:ajax render="groupImages" />
+                                                                    </h:commandLink>
                                                                     
                                                                 </div>
                                                             </li>
@@ -170,7 +171,7 @@ Product #{product}<br/>
 
                                                     </ul>
                                                 </div>
-
+                                                </h:panelGroup>
                                                 <div class="clearer"></div>
 
 
